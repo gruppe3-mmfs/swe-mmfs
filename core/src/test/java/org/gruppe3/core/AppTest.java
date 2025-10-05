@@ -1,4 +1,4 @@
-package org.gruppe3.mmfs;
+package org.gruppe3.core;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

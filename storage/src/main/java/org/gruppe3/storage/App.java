@@ -1,4 +1,4 @@
-package org.gruppe3.mmfs;
+package org.gruppe3.storage;
 
 /** Hello world! */
 public class App {
