@@ -1,0 +1,7 @@
+package org.gruppe3.storage.exception;
+
+public class MySQLDatabaseException extends RuntimeException {
+  public MySQLDatabaseException(String message, Throwable cause) {
+    super(message, cause);
+  }
+}
