@@ -1,9 +1,12 @@
 package org.gruppe3.core.port;
 
+import java.util.ArrayList;
+import org.gruppe3.core.domain.Ticket;
+import org.gruppe3.core.exception.TicketRepositoryException;
+
 public interface TicketRepositoryPort {
 
+  void createTicket(Ticket ticket) throws TicketRepositoryException;
 
-    // Eksempelkode for en metode i porten
-public void createTicket(String ticketDetails);
-
+  ArrayList<Ticket> getUserTickets(int userId) throws TicketRepositoryException;
 }

@@ -3,14 +3,32 @@ package org.gruppe3.core.domain;
 public class Route {
   private int id;
   private String name;
-  private String fromName;
-  private String toName;
+  private String originName;
+  private String destinationName;
+  private Location originLoc;
+  private Location destinationLoc;
 
-  public Route(int id, String name, String fromName, String toName) {
+  public Route(int id, String name, String originName, String destinationName) {
     this.id = id;
     this.name = name;
-    this.fromName = fromName;
-    this.toName = toName;
+    this.originName = originName;
+    this.destinationName = destinationName;
+  }
+
+  public Location getOriginLoc() {
+    return originLoc;
+  }
+
+  public void setOriginLoc(Location originLoc) {
+    this.originLoc = originLoc;
+  }
+
+  public Location getDestinationLoc() {
+    return destinationLoc;
+  }
+
+  public void setDestinationLoc(Location destinationLoc) {
+    this.destinationLoc = destinationLoc;
   }
 
   public int getId() {
@@ -30,18 +48,18 @@ public class Route {
   }
 
   public String getFromName() {
-    return fromName;
+    return originName;
   }
 
   public void setFromName(String fromName) {
-    this.fromName = fromName;
+    this.originName = fromName;
   }
 
   public String getToName() {
-    return toName;
+    return destinationName;
   }
 
   public void setToName(String toName) {
-    this.toName = toName;
+    this.destinationName = toName;
   }
 }
