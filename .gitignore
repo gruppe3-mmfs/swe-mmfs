@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/java,maven,visualstudiocode,vue,vuejs
-# Edit at https://www.toptal.com/developers/gitignore?templates=java,maven,visualstudiocode,vue,vuejs
+# Created by https://www.toptal.com/developers/gitignore/api/java,maven,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,maven,visualstudiocode
 
 ### Java ###
 # Compiled class file
@@ -65,23 +65,4 @@ buildNumber.properties
 .history
 .ionide
 
-### Vue ###
-# gitignore template for Vue.js projects
-#
-# Recommended template: Node.gitignore
-
-# TODO: where does this rule come from?
-docs/_book
-
-# TODO: where does this rule come from?
-test/
-
-### Vuejs ###
-# Recommended template: Node.gitignore
-
-node_modules/
-dist/
-npm-debug.log
-yarn-error.log
-
-# End of https://www.toptal.com/developers/gitignore/api/java,maven,visualstudiocode,vue,vuejs
+# End of https://www.toptal.com/developers/gitignore/api/java,maven,visualstudiocode

@@ -7,3 +7,8 @@
 		- gjør dataflyten mer kompleks
 
 Server burde kanskje vært startet i core med kall mot web-api gjennom adapter isteden (?)
+
+19.10.25:
+
+Javalin startes i core, med følgende cmd: mvn exec:java -pl core
+Frontend startes med følgende kommando: cd frontend && npm run dev (krever npm)
