@@ -9,7 +9,6 @@
   <modules>
     <module>core</module>
     <!-- <module>storage</module> -->
-    <module>app</module>
     <!-- <module>test</module> -->
   </modules>
   <build>
@@ -50,6 +49,14 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.6.1</version>
+          <configuration>
+            <mainClass>org.gruppe3.core.Main</mainClass>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
