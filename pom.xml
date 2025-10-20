@@ -8,8 +8,8 @@
   <name>prosjekt</name>
   <modules>
     <module>core</module>
-    <!-- <module>storage</module> -->
-    <!-- <module>test</module> -->
+    <module>storage</module>
+    <module>test</module>
   </modules>
   <build>
     <pluginManagement>

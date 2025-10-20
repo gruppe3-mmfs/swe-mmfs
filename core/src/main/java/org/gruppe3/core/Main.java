@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 
-  public static void main(String[] args) {
+  private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    final Logger logger = LoggerFactory.getLogger(Main.class);
+  public static void main(String[] args) {
 
     Javalin app =
         Javalin.create(

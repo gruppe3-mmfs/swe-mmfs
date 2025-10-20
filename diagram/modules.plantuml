@@ -1,0 +1,71 @@
+@startuml
+left to right direction
+allowmixing
+package org.gruppe3.core {
+	package domain {
+		class Location {
+			-float longitude
+			-float latitute
+			}
+		class Route {
+			-int id
+			-String name
+			-String originName
+			-String destinationName
+			-Location originLoc
+			-Location destinationLoc
+		}
+		class Ticket {
+			-int id
+			-Route route
+			-ArrayList<Route> routes
+			-int ownerId
+		}
+	}
+	package exception {
+		exception TicketRepositoryException<? extends Exception> {
+		}
+	}
+	package port {
+		interface TicketRepositoryPort {
+			+void createTicket(Ticket ticket)
+			+ArrayList<Ticket> getUserTickets(int userId)
+		}
+	}
+	class Main<? Bootstrap: API-endpoints>
+}
+package org.gruppe3.storage {
+	package adapter {
+		class TicketRepositoryMySQLAdapter<? implements TicketRepositoryPort> {
+			-Connection connection
+			+TicketRepositoryMySQLAdapter(Connection connection)
+		}
+	}
+	package database {
+		class MySQLDatabase {
+			-String url
+			-String username
+			-String password
+			-Connection connection
+			+MySQLDatabase(String url, String username, String password)
+			+getConnection()
+			+startDB()
+			+stopDB()
+		}
+		class H2Database {
+
+		}
+	}
+	package exception {
+		class MySQLDatabaseException<? extends Exception> {
+		}
+	}
+	database MySQL
+	database H2
+}
+package org.gruppe3.test {}
+package org.gruppe3.frontend {}
+
+TicketRepositoryPort <|-- TicketRepositoryMySQLAdapter
+
+@enduml
