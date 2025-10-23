@@ -1,0 +1,30 @@
+networks:
+  default:
+    name: prosjekt-dev-net
+
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: prosjekt-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_ENV=development
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: prosjekt-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development

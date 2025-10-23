@@ -5,7 +5,7 @@ const message = ref("Loading...");
 
 onMounted(async () => {
   try {
-    const response = await fetch("http://localhost:7000/api/message");
+    const response = await fetch("/api/message");
     const data = await response.json();
     message.value = data.message;
   } catch (error) {

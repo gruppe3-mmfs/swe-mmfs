@@ -1,0 +1,8 @@
+FROM maven:3.9.11-eclipse-temurin-21
+WORKDIR /app
+COPY pom.xml ./
+COPY core/ ./core/
+COPY storage/ ./storage/
+COPY test/ ./test/
+RUN mvn clean package -DskipTests
+CMD ["mvn", "compile", "exec:java", "-pl", "core"]

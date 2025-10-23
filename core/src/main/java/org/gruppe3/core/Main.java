@@ -16,12 +16,15 @@ public class Main {
                   config.bundledPlugins.enableCors(
                       cors -> {
                         cors.addRule(
-                            it -> { // For å tillate requests fra frontend server (Vite)
-                              it.allowHost("http://localhost:5173");
+                            it -> {
+                              // npm run dev
+                              it.allowHost("http://localhost:5173"); // localhost:5173
+                              // npm run preview
+                              it.allowHost("http://localhost"); // localhost
                             });
                       });
                 })
-            .start(7000);
+            .start("0.0.0.0", 8080);
 
     app.get("/api/message", ctx -> ctx.json(new APIResponse("ITF20319-1 25H - gruppe 3")));
 
