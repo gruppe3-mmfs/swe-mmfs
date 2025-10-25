@@ -5,8 +5,8 @@ public class Route {
   private String name;
   private String originName;
   private String destinationName;
-  private Location originLoc;
-  private Location destinationLoc;
+  private StopPlace originLoc;
+  private StopPlace destinationLoc;
 
   public Route(int id, String name, String originName, String destinationName) {
     this.id = id;
@@ -15,19 +15,19 @@ public class Route {
     this.destinationName = destinationName;
   }
 
-  public Location getOriginLoc() {
+  public StopPlace getOriginLoc() {
     return originLoc;
   }
 
-  public void setOriginLoc(Location originLoc) {
+  public void setOriginLoc(StopPlace originLoc) {
     this.originLoc = originLoc;
   }
 
-  public Location getDestinationLoc() {
+  public StopPlace getDestinationLoc() {
     return destinationLoc;
   }
 
-  public void setDestinationLoc(Location destinationLoc) {
+  public void setDestinationLoc(StopPlace destinationLoc) {
     this.destinationLoc = destinationLoc;
   }
 

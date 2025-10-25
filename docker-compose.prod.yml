@@ -24,7 +24,7 @@ services:
       dockerfile: Dockerfile
     container_name: prosjekt-backend-prod
     environment:
-      JAVA_ENV: production
+      JAVA_ENV: prod
       MYSQL_HOST: mysql
       MYSQL_USER: root
       MYSQL_PASSWORD: secret
@@ -43,7 +43,7 @@ services:
     depends_on:
       - backend
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=prod
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"

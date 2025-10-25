@@ -7,6 +7,7 @@
   <packaging>pom</packaging>
   <name>prosjekt</name>
   <modules>
+    <module>api</module>
     <module>core</module>
     <module>storage</module>
     <module>test</module>
@@ -50,6 +51,7 @@
                 <overWriteReleases>false</overWriteReleases>
                 <overWriteSnapshots>true</overWriteSnapshots>
                 <overWriteIfNewer>true</overWriteIfNewer>
+                <includeScope>runtime</includeScope>
               </configuration>
             </execution>
           </executions>
@@ -62,8 +64,8 @@
               <addMavenDescriptor>true</addMavenDescriptor>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <mainClass>org.gruppe3.core.Main</mainClass>
                 <classpathPrefix>lib/</classpathPrefix>
+                <mainClass>org.gruppe3.api.Main</mainClass>
               </manifest>
             </archive>
           </configuration>
@@ -89,7 +91,7 @@
           <artifactId>exec-maven-plugin</artifactId>
           <version>3.6.1</version>
           <configuration>
-            <mainClass>org.gruppe3.core.Main</mainClass>
+            <mainClass>org.gruppe3.api.Main</mainClass>
           </configuration>
         </plugin>
       </plugins>
@@ -103,6 +105,27 @@
         <version>5.11.0</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <!-- Align with api/pom.xml versions -->
+      <dependency>
+        <groupId>io.javalin</groupId>
+        <artifactId>javalin</artifactId>
+        <version>6.7.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.0.17</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>2.0.17</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.20.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
