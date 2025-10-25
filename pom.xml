@@ -7,9 +7,10 @@
   <packaging>pom</packaging>
   <name>prosjekt</name>
   <modules>
-    <module>api</module>
     <module>core</module>
+    <module>api</module>
     <module>storage</module>
+    <module>app</module>
     <module>test</module>
   </modules>
   <properties>
@@ -39,36 +40,10 @@
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>3.9.0</version>
-          <executions>
-            <execution>
-              <id>copy-dependencies</id>
-              <phase>package</phase>
-              <goals>
-                <goal>copy-dependencies</goal>
-              </goals>
-              <configuration>
-                <outputDirectory>${project.build.directory}/lib/</outputDirectory>
-                <overWriteReleases>false</overWriteReleases>
-                <overWriteSnapshots>true</overWriteSnapshots>
-                <overWriteIfNewer>true</overWriteIfNewer>
-                <includeScope>runtime</includeScope>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.4.2</version>
-          <configuration>
-            <archive>
-              <addMavenDescriptor>true</addMavenDescriptor>
-              <manifest>
-                <addClasspath>true</addClasspath>
-                <classpathPrefix>lib/</classpathPrefix>
-                <mainClass>org.gruppe3.api.Main</mainClass>
-              </manifest>
-            </archive>
-          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
@@ -90,9 +65,6 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
           <version>3.6.1</version>
-          <configuration>
-            <mainClass>org.gruppe3.api.Main</mainClass>
-          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -106,7 +78,6 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!-- Align with api/pom.xml versions -->
       <dependency>
         <groupId>io.javalin</groupId>
         <artifactId>javalin</artifactId>
@@ -126,6 +97,29 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>2.20.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>9.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.12.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>5.11.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>5.11.0</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>

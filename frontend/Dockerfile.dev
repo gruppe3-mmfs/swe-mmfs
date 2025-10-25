@@ -1,9 +1,0 @@
-FROM node:lts
-WORKDIR /app
-COPY package*.json ./
-COPY vite.config.ts ./
-COPY tsconfig* ./
-RUN npm install
-COPY . .
-EXPOSE 5173
-CMD ["npm", "run", "dev"]

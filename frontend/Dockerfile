@@ -3,8 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY vite.config.ts ./
 COPY tsconfig* ./
-COPY . .
 RUN npm install
+COPY . .
 RUN npm run build
 
 FROM node:lts
