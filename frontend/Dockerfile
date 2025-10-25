@@ -1,4 +1,4 @@
-FROM node:22-alpine AS build-stage
+FROM node:lts AS build-stage
 WORKDIR /app
 COPY package*.json ./
 COPY vite.config.ts ./
@@ -7,7 +7,7 @@ COPY . .
 RUN npm install
 RUN npm run build
 
-FROM node:22-alpine
+FROM node:lts
 COPY --from=build-stage /app/package*.json ./
 COPY --from=build-stage /app/vite.config.ts ./
 COPY --from=build-stage /app/tsconfig* ./
