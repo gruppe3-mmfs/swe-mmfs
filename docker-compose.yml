@@ -61,7 +61,8 @@ services:
       dockerfile: Dockerfile
     container_name: projekt-frontend-prod
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     environment:
       - NODE_ENV=prod
     labels:
@@ -106,6 +107,9 @@ services:
       - PMA_HOST=mysql
       - PMA_USER=root
       - PMA_PASSWORD=secret
+    depends_on:
+      mysql:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.phpmyadmin.rule=Host(`db.localhost`)"

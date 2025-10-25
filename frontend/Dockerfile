@@ -1,17 +1,9 @@
 FROM node:lts AS build-stage
 WORKDIR /app
-COPY package*.json ./
-COPY vite.config.ts ./
-COPY tsconfig* ./
-RUN npm install
 COPY . .
+RUN npm install -g npm@latest
+RUN npm ci
 RUN npm run build
 
-FROM node:lts
-COPY --from=build-stage /app/package*.json ./
-COPY --from=build-stage /app/vite.config.ts ./
-COPY --from=build-stage /app/tsconfig* ./
-COPY --from=build-stage /app/node_modules ./node_modules
-COPY --from=build-stage /app/dist ./dist
 EXPOSE 4173
 CMD ["npm", "run", "preview"]
