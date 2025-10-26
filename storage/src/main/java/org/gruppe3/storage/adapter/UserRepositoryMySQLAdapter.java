@@ -17,7 +17,7 @@ public class UserRepositoryMySQLAdapter implements UserRepositoryPort {
 
   @Override
   public void createUser(User user) throws UserRepositoryException {
-    String sql = "INSERT INTO user (firstName, lastName, phoneNumber, email) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO users (firstName, lastName, phoneNumber, email) VALUES (?, ?, ?, ?)";
 
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
       preparedStatement.setString(1, user.getFirstName());

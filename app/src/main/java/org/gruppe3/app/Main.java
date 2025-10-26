@@ -25,6 +25,8 @@ public class Main {
   public static void main(String[] args) {
 
     MySQLDatabase database = new MySQLDatabase(MYSQL_URL, MYSQL_USER, MYSQL_PASSWORD);
+    logger.info("MySQL URL: " + MYSQL_URL);
+
     Connection dbConnection = database.startDB();
 
     UserRepositoryPort userRepository = new UserRepositoryMySQLAdapter(dbConnection);
