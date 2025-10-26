@@ -2,6 +2,7 @@ package org.gruppe3.core.service;
 
 import java.util.ArrayList;
 import org.gruppe3.core.domain.User;
+import org.gruppe3.core.dto.CreateUserRequest;
 import org.gruppe3.core.dto.GetUserIdRequest;
 import org.gruppe3.core.exception.UserRepositoryException;
 import org.gruppe3.core.port.UserRepositoryPort;
@@ -14,9 +15,13 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
-  public void createUser(GetUserIdRequest request) 
-  throws UserRepositoryException {
-    User user = new User(request.getUserId());
+  public void createUser(CreateUserRequest request) throws UserRepositoryException {
+    User user =
+        new User(
+            request.getFirstName(),
+            request.getLastName(),
+            request.getPhoneNumber(),
+            request.getEmail());
     userRepository.createUser(user);
   }
 

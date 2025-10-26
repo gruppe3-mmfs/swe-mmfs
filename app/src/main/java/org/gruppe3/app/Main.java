@@ -32,13 +32,13 @@ public class Main {
     UserRepositoryPort userRepository = new UserRepositoryMySQLAdapter(dbConnection);
     UserService userService = new UserService(userRepository);
 
-    /* 
+    
     try {
       userService.createUser(new CreateUserRequest("Donald", "Duck", "128937", "donald@andeby.no"));
     } catch (UserRepositoryException e) {
       logger.error(e.getMessage());
     }
-    */
+    
 
     Javalin app =
         Javalin.create(
