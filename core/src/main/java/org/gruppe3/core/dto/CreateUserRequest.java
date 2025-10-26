@@ -13,6 +13,7 @@ public class CreateUserRequest {
     this.email = email;
   }
 
+
   public String getFirstName() {
     return firstName;
   }
