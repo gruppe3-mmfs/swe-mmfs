@@ -79,7 +79,7 @@ services:
         max-file: "3"
 
   mysql:
-    image: mysql:9.3
+    image: mysql:9.5
     environment:
       - MYSQL_ROOT_PASSWORD=secret
       - MYSQL_DATABASE=prosjekt
@@ -100,6 +100,25 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  db-init:
+    image: mysql:9.5
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: "no"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=secret
+      - MYSQL_DB=prosjekt
+    volumes:
+      - ./scripts/schema.sql:/schema.sql:ro
+    entrypoint: >
+      /bin/sh -c "until mysqladmin ping -h $$MYSQL_HOST --silent; do sleep 1; done &&
+                  mysql -h $$MYSQL_HOST -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DB < /schema.sql"
+    networks:
+      - projekt-prod-net
 
   phpmyadmin:
     image: phpmyadmin

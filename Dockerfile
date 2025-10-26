@@ -9,7 +9,11 @@ COPY storage/ ./storage/
 COPY test/ ./test/
 RUN mvn clean package -DskipTests
 
-# Stage 2: Final runtime image
+# Stage 2: Copy and run scripts to create db schema
+FROM mysql:9.5 AS sql-schema
+COPY ./scripts/ /docker-entrypoint-initdb.d/
+
+# Stage 3: Final runtime image
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=build-stage /app/app/target/app-1.0-SNAPSHOT.jar ./app.jar

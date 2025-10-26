@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS prosjekt.users (
+    userID INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    phoneNumber VARCHAR(20) UNIQUE,
+    email VARCHAR(100) UNIQUE
+);
