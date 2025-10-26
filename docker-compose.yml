@@ -1,0 +1,148 @@
+networks:
+  projekt-prod-net:
+    name: projekt-prod-net
+
+services:
+  traefik:
+    image: traefik:v3.4
+    container_name: traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8081:8080" # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - projekt-prod-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: projekt-backend-prod
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - JAVA_ENV=prod
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=secret
+      - MYSQL_DB=prosjekt
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=PathPrefix(`/api`)"
+      - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.services.backend.loadbalancer.server.port=8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - projekt-prod-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: projekt-frontend-prod
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=prod
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+      - "traefik.http.services.frontend.loadbalancer.server.port=4173"
+    networks:
+      - projekt-prod-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mysql:
+    image: mysql:9.5
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=prosjekt
+      - TZ=Europe/Oslo
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - projekt-mysql-data:/var/lib/mysql
+    networks:
+      - projekt-prod-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  db-init:
+    image: mysql:9.5
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: "no"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=secret
+      - MYSQL_DB=prosjekt
+    volumes:
+      - ./scripts/schema.sql:/schema.sql:ro
+    entrypoint: >
+      /bin/sh -c "until mysqladmin ping -h $$MYSQL_HOST --silent; do sleep 1; done &&
+                  mysql -h $$MYSQL_HOST -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DB < /schema.sql"
+    networks:
+      - projekt-prod-net
+
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=secret
+    depends_on:
+      mysql:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`db.localhost`)"
+      - "traefik.http.routers.phpmyadmin.entrypoints=web"
+      - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
+    command: >
+      /bin/sh -c "echo 'ServerName 127.0.0.1' >> /etc/apache2/apache2.conf && /docker-entrypoint.sh apache2-foreground"
+    networks:
+      - projekt-prod-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  projekt-mysql-data:

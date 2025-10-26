@@ -1,0 +1,16 @@
+# Node modules
+**/node_modules
+
+# Maven build artifacts
+**/target/
+
+# IDE and OS files
+*.log
+*.swp
+*.DS_Store
+.vscode/
+.idea/
+
+# Git
+.git
+.gitignore
