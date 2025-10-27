@@ -1,6 +1,7 @@
 package org.gruppe3.core.dto;
 
 public class CreateUserRequest {
+
   private final String firstName;
   private final String lastName;
   private final String phoneNumber;
