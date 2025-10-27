@@ -1,7 +1,6 @@
 package org.gruppe3.test;
 
 import java.util.ArrayList;
-
 import org.gruppe3.core.domain.Route;
 import org.gruppe3.core.domain.Ticket;
 import org.gruppe3.core.dto.GetUserTicketsRequest;
@@ -31,7 +30,7 @@ public class UserServiceUnitTests {
     Route route1 = new Route(1, "Station A", "Station B");
     Route route2 = new Route(2, "Station C", "Station D");
     Route route3 = new Route(3, "Station E", "Station F");
-    stubbedTickets.add(new Ticket(1,1, "123abc", "Normal", route1));
+    stubbedTickets.add(new Ticket(1, 1, "123abc", "Normal", route1));
     stubbedTickets.add(new Ticket(1, 2, "456def", "Student", route2));
     stubbedTickets.add(new Ticket(1, 3, "789ghi", "Senior", route3));
     Mockito.when(ticketRepositoryMock.getUserTickets(1)).thenReturn(stubbedTickets);
@@ -46,11 +45,19 @@ public class UserServiceUnitTests {
 
     // Assert
     // Sjekker her om resultatet er som forventet
-    Assertions.assertEquals( 1,result.getUserId());
+    Assertions.assertEquals(1, result.getUserId());
     Assertions.assertEquals(3, result.getTicketDTOs().size());
-    Assertions.assertEquals("Normal", result.getTicketDTOs().get(0).getTicketType());
-    Assertions.assertEquals("Student", result.getTicketDTOs().get(1).getTicketType());
-    Assertions.assertEquals("Senior", result.getTicketDTOs().get(2).getTicketType());
-    
+    Assertions.assertEquals(
+        "Normal",
+        result.getTicketDTOs().get(0).getTicketType(),
+        "First ticket type should be 'Normal'");
+    Assertions.assertEquals(
+        "Student",
+        result.getTicketDTOs().get(1).getTicketType(),
+        "Second ticket type should be 'Student'");
+    Assertions.assertEquals(
+        "Senior",
+        result.getTicketDTOs().get(2).getTicketType(),
+        "Third ticket type should be 'Senior'");
   }
 }
