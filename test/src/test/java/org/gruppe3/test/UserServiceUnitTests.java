@@ -9,6 +9,7 @@ import org.gruppe3.core.dto.GetUserTicketsResult;
 import org.gruppe3.core.port.TicketRepositoryPort;
 import org.gruppe3.core.service.TicketService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,6 +22,7 @@ public class UserServiceUnitTests {
   @Mock TicketRepositoryPort ticketRepositoryMock;
 
   @Test
+  @DisplayName("getUserTickets - should return correct tickets for user")
   public void getUserTickets() throws Exception {
 
     // Arrange
