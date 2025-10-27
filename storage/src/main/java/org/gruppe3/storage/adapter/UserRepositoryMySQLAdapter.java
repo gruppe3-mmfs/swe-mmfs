@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import org.gruppe3.core.domain.User;
 import org.gruppe3.core.exception.UserRepositoryException;
 import org.gruppe3.core.port.UserRepositoryPort;
@@ -34,27 +33,24 @@ public class UserRepositoryMySQLAdapter implements UserRepositoryPort {
   }
 
   @Override
-public ArrayList<User> getUserById (int userId) 
-throws UserRepositoryException {
-  String sql = "Select userId "+
-               "From user " +
-               "Where userId = ?";
+  public ArrayList<User> getUserById(int userId) throws UserRepositoryException {
+    String sql = "SELECT userId " + "FROM users " + "WHERE userId = ?";
 
-               try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-    preparedStatement.setInt(1, userId);
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+      preparedStatement.setInt(1, userId);
 
-    ArrayList<User> users = new ArrayList<>();
-    ResultSet resultSet = preparedStatement.executeQuery();
-    while (resultSet.next()) {
-      int userIdResult = resultSet.getInt("userId");
+      ArrayList<User> users = new ArrayList<>();
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while (resultSet.next()) {
+        int userIdResult = resultSet.getInt("userId");
 
-      User user = new User(userIdResult);
-      users.add(user);
+        User user = new User(userIdResult);
+        users.add(user);
+      }
+
+      return users;
+    } catch (SQLException e) {
+      throw new UserRepositoryException("Could not retrieve user from database", e);
     }
-
-    return users;
-  } catch (SQLException e) {
-    throw new UserRepositoryException("Could not retrieve user from database", e);
   }
-}
 }
