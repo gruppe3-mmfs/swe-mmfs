@@ -21,6 +21,11 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
+  public UserService(UserRepositoryPort userRepository, TicketRepositoryPort ticketRepository) {
+    this.userRepository = userRepository;
+    this.ticketRepository = ticketRepository;
+  }
+
   public void createUser(CreateUserRequest request) throws UserRepositoryException {
     User user =
         new User(
