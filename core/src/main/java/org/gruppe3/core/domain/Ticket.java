@@ -2,10 +2,19 @@ package org.gruppe3.core.domain;
 
 public class Ticket {
 
+  private int ticketOwnerId;
   private int ticketId;
   private String ticketHash;
   private String ticketType;
   private Route ticketRoute;
+
+  public Ticket(int ticketOwnerId, int ticketId, String ticketHash, String ticketType, Route ticketRoute) {
+    this.ticketOwnerId = ticketOwnerId;
+    this.ticketId = ticketId;
+    this.ticketHash = ticketHash;
+    this.ticketType = ticketType;
+    this.ticketRoute = ticketRoute;
+  }
 
   public Ticket(int ticketId, String ticketHash, String ticketType, Route ticketRoute) {
     this.ticketId = ticketId;
@@ -50,5 +59,13 @@ public class Ticket {
 
   public void setTicketRoute(Route ticketRoute) {
     this.ticketRoute = ticketRoute;
+  }
+
+  public int getTicketOwnerId() {
+    return ticketOwnerId;
+  }
+
+  public void setTicketOwnerId(int ticketOwnerId) {
+    this.ticketOwnerId = ticketOwnerId;
   }
 }
