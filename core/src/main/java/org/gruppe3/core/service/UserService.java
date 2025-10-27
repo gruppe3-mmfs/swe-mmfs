@@ -1,15 +1,21 @@
 package org.gruppe3.core.service;
 
 import java.util.ArrayList;
+import org.gruppe3.core.domain.Ticket;
 import org.gruppe3.core.domain.User;
 import org.gruppe3.core.dto.CreateUserRequest;
-import org.gruppe3.core.dto.GetUserIdRequest;
+import org.gruppe3.core.dto.GetUserTicketsRequest;
+import org.gruppe3.core.dto.GetUserTicketsResult;
+import org.gruppe3.core.dto.TicketDTO;
+import org.gruppe3.core.exception.TicketRepositoryException;
 import org.gruppe3.core.exception.UserRepositoryException;
+import org.gruppe3.core.port.TicketRepositoryPort;
 import org.gruppe3.core.port.UserRepositoryPort;
 
 public class UserService {
 
   private UserRepositoryPort userRepository;
+  private TicketRepositoryPort ticketRepository;
 
   public UserService(UserRepositoryPort userRepository) {
     this.userRepository = userRepository;
@@ -25,23 +31,22 @@ public class UserService {
     userRepository.createUser(user);
   }
 
-  public GetUserIdRequest getUserById(GetUserIdRequest request)
-  throws UserRepositoryException {
+  public GetUserTicketsResult getUserTickets(GetUserTicketsRequest request)
+      throws TicketRepositoryException {
 
-    ArrayList<User> users = userRepository.getUserById(request.getUserId());
+    ArrayList<Ticket> userTickets = ticketRepository.getUserTickets(request.getUserId());
 
-    ArrayList<GetUserIdRequest> userDTOs = new ArrayList<>();
+    ArrayList<TicketDTO> userTicketsResult = new ArrayList<>();
 
-    for (User user : users) {
-      if (user.getUserId() == request.getUserId()) {
-        GetUserIdRequest getUserIdRequest = new GetUserIdRequest(user.getUserId());
-        userDTOs.add(getUserIdRequest);
-      }
+    for (Ticket ticket : userTickets) {
+      TicketDTO ticketDTO =
+          new TicketDTO(ticket.getTicketId(), ticket.getTicketType(), ticket.getTicketRoute());
+      userTicketsResult.add(ticketDTO);
     }
 
-    GetUserIdRequest result = new GetUserIdRequest(
-      request.getUserId()
-    );
+    GetUserTicketsResult result = new GetUserTicketsResult(request.getUserId(), userTicketsResult);
+
     return result;
   }
 }
+

@@ -7,5 +7,6 @@ import org.gruppe3.core.exception.UserRepositoryException;
 public interface UserRepositoryPort {
 
   void createUser(User user) throws UserRepositoryException;
+
   ArrayList<User> getUserById(int userId) throws UserRepositoryException;
 }
