@@ -7,10 +7,8 @@ import org.gruppe3.core.domain.Ticket;
 import org.gruppe3.core.dto.GetUserTicketsRequest;
 import org.gruppe3.core.dto.GetUserTicketsResult;
 import org.gruppe3.core.port.TicketRepositoryPort;
-import org.gruppe3.core.port.UserRepositoryPort;
-import org.gruppe3.core.service.UserService;
+import org.gruppe3.core.service.TicketService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -20,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceUnitTests {
 
-  @Mock UserRepositoryPort userRepositoryMock;
   @Mock TicketRepositoryPort ticketRepositoryMock;
 
   @Test
@@ -37,13 +34,13 @@ public class UserServiceUnitTests {
     stubbedTickets.add(new Ticket(1, 3, "789ghi", "Senior", route3));
     Mockito.when(ticketRepositoryMock.getUserTickets(1)).thenReturn(stubbedTickets);
 
-    UserService userService = new UserService(userRepositoryMock, ticketRepositoryMock);
+    TicketService ticketService = new TicketService(ticketRepositoryMock);
 
     int userId = 1;
     GetUserTicketsRequest request = new GetUserTicketsRequest(userId);
 
     // Act
-    GetUserTicketsResult result = userService.getUserTickets(request);
+    GetUserTicketsResult result = ticketService.getUserTickets(request);
 
     // Assert
     // Sjekker her om resultatet er som forventet
