@@ -37,7 +37,7 @@ public class UserServiceUnitTests {
     stubbedTickets.add(new Ticket(1, 3, "789ghi", "Senior", route3));
     Mockito.when(ticketRepositoryMock.getUserTickets(1)).thenReturn(stubbedTickets);
 
-    UserService userService = new UserService(userRepositoryMock);
+    UserService userService = new UserService(userRepositoryMock, ticketRepositoryMock);
 
     int userId = 1;
     GetUserTicketsRequest request = new GetUserTicketsRequest(userId);
