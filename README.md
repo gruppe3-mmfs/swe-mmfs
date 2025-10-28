@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/gruppe3-mmfs/swe-mmfs/actions/dev/maven.yml/badge.svg)](https://github.com/gruppe3-mmfs/swe-mmfs/actions/dev/maven.yml)
+
 # 🧱 SWE-MMFS: Modular Fullstack System
 
 A fullstack project built for the ITF20319-1 25H Software Engineering
