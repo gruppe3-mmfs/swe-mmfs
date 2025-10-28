@@ -15,6 +15,14 @@ public class Route {
     this.destinationName = destinationName;
   }
 
+  public String OriginName() {
+    return originName;
+  }
+
+  public String DestinationName() {
+    return destinationName;
+  }
+
   public Location getOriginLoc() {
     return originLoc;
   }

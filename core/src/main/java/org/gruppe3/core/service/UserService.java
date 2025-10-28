@@ -1,6 +1,10 @@
 package org.gruppe3.core.service;
 
+import java.util.ArrayList;
+import org.gruppe3.core.domain.Ticket;
 import org.gruppe3.core.domain.User;
+import org.gruppe3.core.dto.BuyTicketRequest;
+import org.gruppe3.core.dto.BuyTicketResult;
 import org.gruppe3.core.dto.CreateUserRequest;
 import org.gruppe3.core.exception.UserRepositoryException;
 import org.gruppe3.core.port.UserRepositoryPort;
@@ -23,4 +27,3 @@ public class UserService {
     userRepository.createUser(user);
   }
 }
-

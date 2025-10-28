@@ -8,7 +8,8 @@ public class Ticket {
   private String ticketType;
   private Route ticketRoute;
 
-  public Ticket(int ticketOwnerId, int ticketId, String ticketHash, String ticketType, Route ticketRoute) {
+  public Ticket(
+      int ticketOwnerId, int ticketId, String ticketHash, String ticketType, Route ticketRoute) {
     this.ticketOwnerId = ticketOwnerId;
     this.ticketId = ticketId;
     this.ticketHash = ticketHash;

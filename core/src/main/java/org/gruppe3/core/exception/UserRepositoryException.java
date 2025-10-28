@@ -4,4 +4,8 @@ public class UserRepositoryException extends Exception {
   public UserRepositoryException(String message, Throwable cause) {
     super(message, cause);
   }
+
+public UserRepositoryException(String message) {
+    super(message);
+  }
 }
