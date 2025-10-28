@@ -2,7 +2,9 @@ package org.gruppe3.app;
 
 import io.javalin.Javalin;
 import java.sql.Connection;
+import java.util.ArrayList;
 import org.gruppe3.api.adapter.ping.PingController;
+import org.gruppe3.core.domain.User;
 import org.gruppe3.core.dto.CreateUserRequest;
 import org.gruppe3.core.exception.UserRepositoryException;
 import org.gruppe3.core.port.UserRepositoryPort;
@@ -22,19 +24,29 @@ public class Main {
   private static final String MYSQL_URL = "jdbc:mysql://" + MYSQL_HOST + ":3306/" + MYSQL_DB;
   private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws UserRepositoryException {
 
     MySQLDatabase database = new MySQLDatabase(MYSQL_URL, MYSQL_USER, MYSQL_PASSWORD);
 
     Connection dbConnection = database.startDB();
 
     UserRepositoryPort userRepository = new UserRepositoryMySQLAdapter(dbConnection);
+
     UserService userService = new UserService(userRepository);
+
+    ArrayList<User> usersWithIdFromDatabase = userRepository.getAllUsersFromDatabase();
+    for (User user : usersWithIdFromDatabase) {
+      logger.info(
+          "ID: " + user.getUserId() + ", Name: " + user.getFirstName() + " " + user.getLastName());
+    }
 
     try {
       userService.createUser(new CreateUserRequest("Donald", "Duck", "128937", "donald@andeby.no"));
-      userService.createUser(new CreateUserRequest("Fetter", "Anton", "228937", "anton@andeby.no"));
-      userService.createUser(new CreateUserRequest("Skrue", "McDuck", "328937", "skrue@andeby.no"));
+      userService.createUser(new CreateUserRequest("Anton", "Duck", "228937", "anton@andeby.no"));
+      userService.createUser(new CreateUserRequest("Skrue", "Duck", "328937", "skrue@andeby.no"));
+      userService.createUser(new CreateUserRequest("Ole", "Duck", "428937", "ole@andeby.no"));
+      userService.createUser(new CreateUserRequest("Dole", "Duck", "528937", "dole@andeby.no"));
+      userService.createUser(new CreateUserRequest("Doffen", "Duck", "628937", "doffen@andeby.no"));
     } catch (UserRepositoryException e) {
       logger.error(e.getMessage());
     }

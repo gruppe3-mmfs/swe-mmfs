@@ -23,10 +23,6 @@ public class User {
     this.email = email;
   }
 
-  public User(int userId) {
-    // TODO Auto-generated constructor stub
-  }
-
   public int getUserId() {
     return userId;
   }
