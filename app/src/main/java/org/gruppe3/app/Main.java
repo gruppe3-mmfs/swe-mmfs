@@ -25,20 +25,19 @@ public class Main {
   public static void main(String[] args) {
 
     MySQLDatabase database = new MySQLDatabase(MYSQL_URL, MYSQL_USER, MYSQL_PASSWORD);
-    logger.info("MySQL URL: " + MYSQL_URL);
 
     Connection dbConnection = database.startDB();
 
     UserRepositoryPort userRepository = new UserRepositoryMySQLAdapter(dbConnection);
     UserService userService = new UserService(userRepository);
 
-    
     try {
       userService.createUser(new CreateUserRequest("Donald", "Duck", "128937", "donald@andeby.no"));
+      userService.createUser(new CreateUserRequest("Fetter", "Anton", "228937", "anton@andeby.no"));
+      userService.createUser(new CreateUserRequest("Skrue", "McDuck", "328937", "skrue@andeby.no"));
     } catch (UserRepositoryException e) {
       logger.error(e.getMessage());
     }
-    
 
     Javalin app =
         Javalin.create(

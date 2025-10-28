@@ -1,6 +1,6 @@
 networks:
-  projekt-prod-net:
-    name: projekt-prod-net
+  proxy:
+    name: proxy
 
 services:
   traefik:
@@ -10,24 +10,33 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
+      - "--log.level=INFO"
+      - "--accesslog=true"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.addrouterslabels=true"
+      - "--metrics.prometheus.addserviceslabels=true"
     ports:
       - "80:80"
       - "8081:8080" # Traefik dashboard
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - projekt-prod-net
+      - proxy
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.docker.localhost`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
 
   backend:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: projekt-backend-prod
+    container_name: backend
     depends_on:
       mysql:
         condition: service_healthy
@@ -48,7 +57,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - projekt-prod-net
+      - proxy
     logging:
       driver: "json-file"
       options:
@@ -59,7 +68,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: projekt-frontend-prod
+    container_name: frontend
     depends_on:
       backend:
         condition: service_healthy
@@ -71,7 +80,7 @@ services:
       - "traefik.http.routers.frontend.entrypoints=web"
       - "traefik.http.services.frontend.loadbalancer.server.port=4173"
     networks:
-      - projekt-prod-net
+      - proxy
     logging:
       driver: "json-file"
       options:
@@ -91,9 +100,9 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - projekt-mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
-      - projekt-prod-net
+      - proxy
     logging:
       driver: "json-file"
       options:
@@ -117,7 +126,7 @@ services:
       /bin/sh -c "until mysqladmin ping -h $$MYSQL_HOST --silent; do sleep 1; done &&
                   mysql -h $$MYSQL_HOST -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DB < /schema.sql"
     networks:
-      - projekt-prod-net
+      - proxy
 
   phpmyadmin:
     image: phpmyadmin
@@ -130,13 +139,13 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.phpmyadmin.rule=Host(`db.localhost`)"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`db.docker.localhost`)"
       - "traefik.http.routers.phpmyadmin.entrypoints=web"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
     command: >
       /bin/sh -c "echo 'ServerName 127.0.0.1' >> /etc/apache2/apache2.conf && /docker-entrypoint.sh apache2-foreground"
     networks:
-      - projekt-prod-net
+      - proxy
     logging:
       driver: "json-file"
       options:
@@ -144,4 +153,4 @@ services:
         max-file: "3"
 
 volumes:
-  projekt-mysql-data:
+  mysql-data:
