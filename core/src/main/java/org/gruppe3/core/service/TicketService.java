@@ -1,7 +1,6 @@
 package org.gruppe3.core.service;
 
 import java.util.ArrayList;
-
 import org.gruppe3.core.domain.Ticket;
 import org.gruppe3.core.dto.CreateTicketRequest;
 import org.gruppe3.core.dto.GetUserTicketsRequest;
