@@ -1,9 +1,17 @@
-### ITF20319-1 25H Software Engineering og testing - gruppe 3
+## ITF20319-1 25H Software Engineering og testing - gruppe 3
 
-## To build and run
+### To build and run
 
     docker-compose up --build
 
 ### To reset/delete MySQL volume and start
 
     docker-compose rm -v -f mysql && docker-compose up
+
+### Traefik dashboard
+
+    dashboard.docker.localhost
+
+### phpMyAdmin dashboard
+
+    db.docker.localhost
