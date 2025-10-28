@@ -1,4 +1,4 @@
-[![Java CI with Maven](https://github.com/gruppe3-mmfs/swe-mmfs/actions/dev/maven.yml/badge.svg)](https://github.com/gruppe3-mmfs/swe-mmfs/actions/dev/maven.yml)
+[![Java CI with Maven](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml/badge.svg?branch=dev)](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml)
 
 # 🧱 SWE-MMFS: Modular Fullstack System
 
