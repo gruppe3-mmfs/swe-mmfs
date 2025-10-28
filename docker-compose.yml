@@ -4,7 +4,7 @@ networks:
 
 services:
   traefik:
-    image: traefik:v3.4
+    image: traefik:v3.5.3
     container_name: traefik
     command:
       - "--api.insecure=true"
@@ -129,7 +129,7 @@ services:
       - proxy
 
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin:5.2.3
     environment:
       - PMA_HOST=mysql
       - PMA_USER=root
