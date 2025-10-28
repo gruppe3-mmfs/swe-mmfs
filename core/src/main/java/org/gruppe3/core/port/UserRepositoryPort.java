@@ -8,5 +8,7 @@ public interface UserRepositoryPort {
 
   void createUser(User user) throws UserRepositoryException;
 
-  ArrayList<User> getUserById(int userId) throws UserRepositoryException;
+  User getUserById(int userId) throws UserRepositoryException;
+
+  ArrayList<User> getAllUsersFromDatabase() throws UserRepositoryException;
 }
