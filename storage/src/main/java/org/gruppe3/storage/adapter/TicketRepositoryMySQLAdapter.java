@@ -23,9 +23,25 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
         "INSERT INTO tickets (ticketHash, ticketType, ticketRouteOrigin, ticketRouteDestination)"
             + " VALUES (?, ?, ?, ?)";
 
+    String lut = "SELECT * " + "FROM ticketTypes " + "WHERE ticketType = ?";
+
+    int ticketTypeIdFromLUT = 1; // Setter billett-type til "Normal" dersom vi ikke finner noe i LUT
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(lut)) {
+      preparedStatement.setString(1, ticket.getTicketType());
+      ResultSet result = preparedStatement.executeQuery();
+
+      if (result.next()) {
+        ticketTypeIdFromLUT = result.getInt("ticketTypeId");
+      }
+    } catch (SQLException e) {
+      throw new TicketRepositoryException(
+          "No ticketTypeId found for ticketType: " + ticket.getTicketType(), e);
+    }
+
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
       preparedStatement.setString(1, ticket.getTicketHash());
-      preparedStatement.setString(2, ticket.getTicketType());
+      preparedStatement.setInt(2, ticketTypeIdFromLUT);
       preparedStatement.setString(3, ticket.getTicketRoute().getFromName());
       preparedStatement.setString(4, ticket.getTicketRoute().getToName());
       preparedStatement.executeUpdate();
