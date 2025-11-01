@@ -1,4 +1,4 @@
-package org.gruppe3.api.adapter.ping;
+package org.gruppe3.api;
 
 import io.javalin.http.Handler;
 

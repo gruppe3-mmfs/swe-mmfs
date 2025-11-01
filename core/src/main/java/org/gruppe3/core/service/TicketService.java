@@ -7,7 +7,7 @@ import org.gruppe3.core.dto.GetUserTicketsRequest;
 import org.gruppe3.core.dto.GetUserTicketsResult;
 import org.gruppe3.core.dto.TicketDTO;
 import org.gruppe3.core.exception.TicketRepositoryException;
-import org.gruppe3.core.port.TicketRepositoryPort;
+import org.gruppe3.core.port.in.TicketRepositoryPort;
 
 public class TicketService {
 

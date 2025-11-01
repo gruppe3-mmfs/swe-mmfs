@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import org.gruppe3.core.domain.User;
 import org.gruppe3.core.exception.UserRepositoryException;
-import org.gruppe3.core.port.UserRepositoryPort;
+import org.gruppe3.core.port.in.UserRepositoryPort;
 
 public class UserRepositoryMySQLAdapter implements UserRepositoryPort {
 

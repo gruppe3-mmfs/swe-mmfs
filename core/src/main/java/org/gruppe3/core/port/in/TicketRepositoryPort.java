@@ -1,4 +1,4 @@
-package org.gruppe3.core.port;
+package org.gruppe3.core.port.in;
 
 import java.util.ArrayList;
 import org.gruppe3.core.domain.Ticket;

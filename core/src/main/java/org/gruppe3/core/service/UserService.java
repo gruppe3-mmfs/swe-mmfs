@@ -3,7 +3,7 @@ package org.gruppe3.core.service;
 import org.gruppe3.core.domain.User;
 import org.gruppe3.core.dto.CreateUserRequest;
 import org.gruppe3.core.exception.UserRepositoryException;
-import org.gruppe3.core.port.UserRepositoryPort;
+import org.gruppe3.core.port.in.UserRepositoryPort;
 
 public class UserService {
 
