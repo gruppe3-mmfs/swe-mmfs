@@ -1,6 +1,6 @@
 [![Java CI with Maven](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml/badge.svg?branch=dev)](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml)
-![coverage](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/coverage.yml/.github/badges/jacoco.svg)
-![branches coverage](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/coverage.yml/.github/badges/branches.svg)
+[![Coverage](.github/badges/jacoco.svg)](https://github.com/gruppe3-mmfs/swe-mmfs/dev/actions/workflows/coverage.yml)
+[![Branches](.github/badges/branches.svg)](https://github.com/gruppe3-mmfs/swe-mmfs/dev/actions/workflows/coverage.yml)
 
 # 🧱 SWE-MMFS: Modular Fullstack System
 

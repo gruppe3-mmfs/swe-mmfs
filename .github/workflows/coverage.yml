@@ -22,7 +22,7 @@ jobs:
         cache: maven
         
     - name: Run Coverage
-      run: mvn verify
+      run: mvn test
 
     - name: Add coverage to PR
       id: jacoco
