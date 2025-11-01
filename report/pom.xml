@@ -1,37 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.gruppe3</groupId>
-  <artifactId>test</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <parent>
-    <artifactId>prosjekt</artifactId>
     <groupId>org.gruppe3</groupId>
+    <artifactId>prosjekt</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <packaging>jar</packaging>
-  <name>test</name>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
+  <artifactId>report</artifactId>
+  <name>report</name>
+  <packaging>pom</packaging>
   <dependencies>
     <dependency>
       <groupId>org.gruppe3</groupId>
       <artifactId>core</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gruppe3</groupId>
-      <artifactId>app</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -41,20 +22,35 @@
     </dependency>
     <dependency>
       <groupId>org.gruppe3</groupId>
+      <artifactId>app</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gruppe3</groupId>
       <artifactId>storage</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-junit-jupiter</artifactId>
+      <groupId>org.gruppe3</groupId>
+      <artifactId>test</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>report-aggregate</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report-aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
