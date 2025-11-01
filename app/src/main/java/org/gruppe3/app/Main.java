@@ -4,11 +4,17 @@ import io.javalin.Javalin;
 import java.sql.Connection;
 import java.util.ArrayList;
 import org.gruppe3.api.PingController;
+import org.gruppe3.core.domain.Route;
 import org.gruppe3.core.domain.User;
+import org.gruppe3.core.dto.CreateTicketRequest;
 import org.gruppe3.core.dto.CreateUserRequest;
+import org.gruppe3.core.exception.TicketRepositoryException;
 import org.gruppe3.core.exception.UserRepositoryException;
+import org.gruppe3.core.port.out.TicketRepositoryPort;
 import org.gruppe3.core.port.out.UserRepositoryPort;
+import org.gruppe3.core.service.TicketService;
 import org.gruppe3.core.service.UserService;
+import org.gruppe3.storage.adapter.TicketRepositoryMySQLAdapter;
 import org.gruppe3.storage.adapter.UserRepositoryMySQLAdapter;
 import org.gruppe3.storage.database.MySQLDatabase;
 import org.slf4j.Logger;
@@ -16,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 
-  private static final String JAVA_ENV = System.getenv("JAVA_ENV");
   private static final String MYSQL_HOST = System.getenv("MYSQL_HOST");
   private static final String MYSQL_USER = System.getenv("MYSQL_USER");
   private static final String MYSQL_PASSWORD = System.getenv("MYSQL_PASSWORD");
@@ -31,8 +36,10 @@ public class Main {
     Connection dbConnection = database.startDB();
 
     UserRepositoryPort userRepository = new UserRepositoryMySQLAdapter(dbConnection);
+    TicketRepositoryPort ticketRepository = new TicketRepositoryMySQLAdapter(dbConnection);
 
     UserService userService = new UserService(userRepository);
+    TicketService ticketService = new TicketService(ticketRepository);
 
     try {
       userService.createUser(new CreateUserRequest("Donald", "Duck", "128937", "donald@andeby.no"));
@@ -42,6 +49,16 @@ public class Main {
       userService.createUser(new CreateUserRequest("Dole", "Duck", "528937", "dole@andeby.no"));
       userService.createUser(new CreateUserRequest("Doffen", "Duck", "628937", "doffen@andeby.no"));
     } catch (UserRepositoryException e) {
+      logger.error(e.getMessage());
+    }
+
+    try {
+      ticketService.createTicket(
+          new CreateTicketRequest(
+              "2813094bb9d066d29c9b8df77de14975b1fa1746f1ca088acdf6ff253ade0063",
+              "Student",
+              new Route("Bergen", "Oslo")));
+    } catch (TicketRepositoryException e) {
       logger.error(e.getMessage());
     }
 
@@ -58,13 +75,7 @@ public class Main {
                       cors -> {
                         cors.addRule(
                             it -> {
-                              if ("dev".equals(JAVA_ENV)) {
-                                it.allowHost("http://localhost:5173");
-                              } else if ("prod".equals(JAVA_ENV)) {
-                                it.allowHost("http://localhost");
-                              } else {
-                                it.anyHost();
-                              }
+                              it.allowHost("http://localhost");
                             });
                       });
                 })
