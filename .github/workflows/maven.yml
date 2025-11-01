@@ -33,18 +33,18 @@ jobs:
       run: mvn -B package
 
     - name: Upload Report
-      uses: 'actions/upload-artifact@v3'
+      uses: 'actions/upload-artifact@v4'
       with:
         name: jacoco-report
         path: |
-          ${{ github.workspace }}report/target/site/jacoco/jacoco.xml
-          ${{ github.workspace }}report/target/site/jacoco/index.html
+          ${{ github.workspace }}/report/target/site/jacoco-aggregate/jacoco.xml
+          ${{ github.workspace }}/report/target/site/jacoco-aggregate/index.html
      
     - name: Add coverage to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.6.1
       with:
-        paths: ${{ github.workspace }}report/target/site/jacoco/jacoco.xml
+        paths: ${{ github.workspace }}/report/target/site/jacoco-aggregate/jacoco.xml
         token: ${{ secrets.GITHUB_TOKEN }}
         min-coverage-overall: 0
         min-coverage-changed-files: 0
