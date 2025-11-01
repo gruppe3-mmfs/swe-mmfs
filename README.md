@@ -1,5 +1,6 @@
 [![Java CI with Maven](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml/badge.svg?branch=dev)](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml)
-[![Coverage](.github/badges/jacoco.svg?branch=dev)](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/coverage.yml)
+![coverage](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/coverage.yml/.github/badges/jacoco.svg)
+![branches coverage](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/coverage.yml/.github/badges/branches.svg)
 
 # 🧱 SWE-MMFS: Modular Fullstack System
 
@@ -22,6 +23,7 @@ The backend is written in **Java 21**, built with a **multi-module Maven** setup
 - `app`: Application bootstrap and configuration
 - `storage`: Persistence layer with database adapters and exception handling
 - `test`: Shared test scaffolding and integration test setup
+- `report`: Aggregated report for code coverage generated with JaCoCo
 
 ---
 
@@ -71,6 +73,7 @@ Reset MySQL volume and restart:
     ├── core/        # Domain, DTOs, ports, services
     ├── storage/     # Database adapters and persistence
     ├── test/        # Shared test scaffolding
+    ├── report/      # JaCoCo aggregated report (Code coverage)
     ├── frontend/    # Vue.js frontend (Vite)
     ├── scripts/     # SQL schema and setup scripts
     ├── diagram/     # Architecture diagrams
