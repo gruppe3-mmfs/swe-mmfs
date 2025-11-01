@@ -1,7 +1,9 @@
 CREATE TABLE IF NOT EXISTS prosjekt.family (
 	familyId INT AUTO_INCREMENT PRIMARY KEY,
-	fmailyName VARCHAR(50) NOT NULL,
+	familyName VARCHAR(50) NOT NULL
 );
+
+INSERT IGNORE INTO prosjekt.family (familyId, familyName) VALUES (1, "Duck");
 
 CREATE TABLE IF NOT EXISTS prosjekt.users (
   userId INT AUTO_INCREMENT PRIMARY KEY,
