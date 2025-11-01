@@ -1,6 +1,6 @@
 [![Java CI with Maven](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml/badge.svg?branch=dev)](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml)
-[![Coverage](.github/badges/jacoco.svg)]
-[![Branches](.github/badges/branches.svg)]
+![Coverage](.github/badges/jacoco.svg)
+![Branches](.github/badges/branches.svg)
 
 # 🧱 SWE-MMFS: Modular Fullstack System
 
@@ -44,9 +44,9 @@ for fast development and optimized builds.
 ### ⚙️ Infrastructure
 
 - **Containerization:** Docker & Docker Compose
-- **Routing & Proxy:** Traefik [dashboard](http://dashboard.docker.localhost)
+- **Routing & Proxy:** Traefik [dashboard](http://dashboard.docker.localhost) (after running)
 - **Database:** MySQL
-- **Admin UI:** phpMyAdmin [dashboard](http://db.docker.localhost)
+- **Admin UI:** phpMyAdmin [dashboard](http://db.docker.localhost) (after running)
 
 ---
 
