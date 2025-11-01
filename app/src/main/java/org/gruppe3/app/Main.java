@@ -7,7 +7,7 @@ import org.gruppe3.api.PingController;
 import org.gruppe3.core.domain.User;
 import org.gruppe3.core.dto.CreateUserRequest;
 import org.gruppe3.core.exception.UserRepositoryException;
-import org.gruppe3.core.port.in.UserRepositoryPort;
+import org.gruppe3.core.port.out.UserRepositoryPort;
 import org.gruppe3.core.service.UserService;
 import org.gruppe3.storage.adapter.UserRepositoryMySQLAdapter;
 import org.gruppe3.storage.database.MySQLDatabase;

@@ -5,7 +5,7 @@ import org.gruppe3.core.domain.Route;
 import org.gruppe3.core.domain.Ticket;
 import org.gruppe3.core.dto.GetUserTicketsRequest;
 import org.gruppe3.core.dto.GetUserTicketsResult;
-import org.gruppe3.core.port.in.TicketRepositoryPort;
+import org.gruppe3.core.port.out.TicketRepositoryPort;
 import org.gruppe3.core.service.TicketService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

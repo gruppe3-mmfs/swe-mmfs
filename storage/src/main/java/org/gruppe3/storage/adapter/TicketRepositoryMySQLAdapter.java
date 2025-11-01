@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.gruppe3.core.domain.Route;
 import org.gruppe3.core.domain.Ticket;
 import org.gruppe3.core.exception.TicketRepositoryException;
-import org.gruppe3.core.port.in.TicketRepositoryPort;
+import org.gruppe3.core.port.out.TicketRepositoryPort;
 
 public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
   private Connection connection;
