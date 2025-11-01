@@ -8,8 +8,7 @@ public class Route {
   private Location originLoc;
   private Location destinationLoc;
 
-  public Route(int id, String originName, String destinationName) {
-    this.id = id;
+  public Route(String originName, String destinationName) {
     this.name = originName + " - " + destinationName;
     this.originName = originName;
     this.destinationName = destinationName;

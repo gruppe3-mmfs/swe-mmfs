@@ -6,6 +6,7 @@ COPY api/ ./api/
 COPY app/ ./app/
 COPY core/ ./core/
 COPY storage/ ./storage/
+COPY report/ ./report/
 COPY test/ ./test/
 RUN mvn clean package -DskipTests
 

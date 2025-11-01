@@ -27,12 +27,12 @@ public class UserServiceUnitTests {
     // Arrange
     // Her oppretter vi stub data som skal returneres av mock objektet
     ArrayList<Ticket> stubbedTickets = new ArrayList<>();
-    Route route1 = new Route(1, "Station A", "Station B");
-    Route route2 = new Route(2, "Station C", "Station D");
-    Route route3 = new Route(3, "Station E", "Station F");
-    stubbedTickets.add(new Ticket(1, 1, "123abc", "Normal", route1));
-    stubbedTickets.add(new Ticket(1, 2, "456def", "Student", route2));
-    stubbedTickets.add(new Ticket(1, 3, "789ghi", "Senior", route3));
+    Route route1 = new Route("Station A", "Station B");
+    Route route2 = new Route("Station C", "Station D");
+    Route route3 = new Route("Station E", "Station F");
+    stubbedTickets.add(new Ticket(1, "123abc", "Normal", route1, 1));
+    stubbedTickets.add(new Ticket(2, "456def", "Student", route2, 1));
+    stubbedTickets.add(new Ticket(3, "789ghi", "Senior", route3, 1));
     Mockito.when(ticketRepositoryMock.getUserTickets(1)).thenReturn(stubbedTickets);
 
     TicketService ticketService = new TicketService(ticketRepositoryMock);

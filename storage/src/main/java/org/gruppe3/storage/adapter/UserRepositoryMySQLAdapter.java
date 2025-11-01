@@ -38,8 +38,8 @@ public class UserRepositoryMySQLAdapter implements UserRepositoryPort {
 
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
       preparedStatement.setInt(1, userId);
-
       ResultSet resultSet = preparedStatement.executeQuery();
+
       int userIdResult = resultSet.getInt("userId");
       String firstNameResult = resultSet.getString("firstName");
       String lastNameResult = resultSet.getString("lastName");
