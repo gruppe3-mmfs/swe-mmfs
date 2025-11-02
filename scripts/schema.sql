@@ -26,7 +26,7 @@ INSERT IGNORE INTO prosjekt.ticketTypes (ticketTypeId, ticketType) VALUES (3, "S
 
 CREATE TABLE IF NOT EXISTS prosjekt.tickets (
 	ticketId INT AUTO_INCREMENT PRIMARY KEY,
-	ticketHash VARCHAR(64) NOT NULL,
+	ticketHash VARCHAR(64) NOT NULL UNIQUE,
 	ticketType INT NOT NULL,
 	ticketRouteOrigin VARCHAR(50) NOT NULL,
 	ticketRouteDestination VARCHAR(50) NOT NULL,
