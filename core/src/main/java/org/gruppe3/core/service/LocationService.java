@@ -26,6 +26,7 @@ public class LocationService {
     for (Location location : foundLocations) {
       LocationDTO locationDTO =
           new LocationDTO(
+              location.getId(),
               location.getName(),
               location.getLatitude(),
               location.getLongitude(),

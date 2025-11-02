@@ -69,31 +69,31 @@ public class EnturLocationAdapter implements LocationAPIPort {
       JsonNode root = objectMapper.readTree(jsonBody);
       JsonNode features = root.path("features");
 
-      if (features.isMissingNode() || !features.isArray()) {
-        return locations; // Empty if no features
+      if (!features.isArray()) {
+        return locations; // No results
       }
 
       for (JsonNode feature : features) {
-        String id = feature.path("id").asText();
+        String id = feature.path("properties").path("id").asText();
         if (id.isEmpty()) continue;
 
-        JsonNode props = feature.path("properties");
-        String name = props.path("name").asText();
-        String description = props.path("label").asText();
+        String name = feature.path("properties").path("name").asText();
+        String description = feature.path("properties").path("label").asText();
 
         JsonNode coords = feature.path("geometry").path("coordinates");
         if (coords.size() < 2) continue;
 
+        // GeoJSON: [longitude, latitude]
         double longitude = coords.get(0).asDouble();
         double latitude = coords.get(1).asDouble();
 
-        locations.add(new Location(name, latitude, longitude, description));
+        locations.add(new Location(id, name, latitude, longitude, description));
       }
 
-      return locations;
-
     } catch (Exception e) {
-      throw new LocationAPIException("Failed to parse EnTur API JSON response", e);
+      throw new LocationAPIException("Failed to parse EnTur JSON response", e);
     }
+
+    return locations;
   }
 }

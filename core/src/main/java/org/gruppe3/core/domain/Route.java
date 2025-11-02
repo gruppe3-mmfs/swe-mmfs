@@ -1,7 +1,6 @@
 package org.gruppe3.core.domain;
 
 public class Route {
-  private int id;
   private String name;
   private String originName;
   private String destinationName;
@@ -12,6 +11,13 @@ public class Route {
     this.name = originName + " - " + destinationName;
     this.originName = originName;
     this.destinationName = destinationName;
+  }
+
+  public Route(Location originLoc, Location destinationLoc) {
+    this.originLoc = originLoc;
+    this.destinationLoc = destinationLoc;
+    this.originName = originLoc.getName();
+    this.destinationName = destinationLoc.getName();
   }
 
   public Location getOriginLoc() {
@@ -28,14 +34,6 @@ public class Route {
 
   public void setDestinationLoc(Location destinationLoc) {
     this.destinationLoc = destinationLoc;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public String getName() {
