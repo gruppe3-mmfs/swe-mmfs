@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS family (
+	familyId INT AUTO_INCREMENT PRIMARY KEY,
+	familyName VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  userId INT AUTO_INCREMENT PRIMARY KEY,
+  firstName VARCHAR(50) NOT NULL,
+  lastName VARCHAR(50) NOT NULL,
+  phoneNumber VARCHAR(20) NOT NULL UNIQUE,
+  email VARCHAR(100) NOT NULL UNIQUE,
+	userFamilyId INT,
+	FOREIGN KEY (userFamilyId) REFERENCES family(familyId)
+);
+
+CREATE TABLE IF NOT EXISTS ticketTypes (
+	ticketTypeId INT AUTO_INCREMENT PRIMARY KEY,
+	ticketType VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS tickets (
+	ticketId INT AUTO_INCREMENT PRIMARY KEY,
+	ticketHash VARCHAR(64) NOT NULL UNIQUE,
+	ticketType INT NOT NULL,
+	ticketRouteOrigin VARCHAR(50) NOT NULL,
+	ticketRouteDestination VARCHAR(50) NOT NULL,
+	ticketOwnerId INT,
+	FOREIGN KEY (ticketType) REFERENCES ticketTypes(ticketTypeId),
+	FOREIGN KEY (ticketOwnerId) REFERENCES users(userId)
+);

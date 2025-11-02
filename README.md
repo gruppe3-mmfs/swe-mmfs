@@ -63,7 +63,7 @@ Start the fullstack system:
 
 Reset MySQL volume and restart:
 
-    docker-compose rm -v -f mysql && docker-compose up
+    docker-compose down -v && docker-compose up --build
 
 ## 📁 Project Structure
 
