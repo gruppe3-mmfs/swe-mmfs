@@ -4,14 +4,21 @@ import io.javalin.Javalin;
 import java.sql.Connection;
 import java.util.ArrayList;
 import org.gruppe3.api.PingController;
+import org.gruppe3.api.adapter.entur.EnturLocationAdapter;
 import org.gruppe3.core.domain.Route;
 import org.gruppe3.core.domain.User;
 import org.gruppe3.core.dto.CreateTicketRequest;
 import org.gruppe3.core.dto.CreateUserRequest;
+import org.gruppe3.core.dto.LocationDTO;
+import org.gruppe3.core.dto.SearchLocationRequest;
+import org.gruppe3.core.dto.SearchLocationResult;
+import org.gruppe3.core.exception.LocationAPIException;
 import org.gruppe3.core.exception.TicketRepositoryException;
 import org.gruppe3.core.exception.UserRepositoryException;
+import org.gruppe3.core.port.out.LocationAPIPort;
 import org.gruppe3.core.port.out.TicketRepositoryPort;
 import org.gruppe3.core.port.out.UserRepositoryPort;
+import org.gruppe3.core.service.LocationService;
 import org.gruppe3.core.service.TicketService;
 import org.gruppe3.core.service.UserService;
 import org.gruppe3.storage.adapter.TicketRepositoryMySQLAdapter;
@@ -37,9 +44,34 @@ public class Main {
 
     UserRepositoryPort userRepository = new UserRepositoryMySQLAdapter(dbConnection);
     TicketRepositoryPort ticketRepository = new TicketRepositoryMySQLAdapter(dbConnection);
+    LocationAPIPort locationAPI = new EnturLocationAdapter();
 
     UserService userService = new UserService(userRepository);
     TicketService ticketService = new TicketService(ticketRepository);
+    LocationService locationService = new LocationService(locationAPI);
+
+    try {
+      SearchLocationResult locationsFromEntur =
+          locationService.searchLocations(new SearchLocationRequest("Halden"));
+
+      for (LocationDTO locDTO : locationsFromEntur.getLocationDTOs()) {
+        logger.info(
+            "ID: "
+                + locDTO.getId()
+                + ", Name: "
+                + locDTO.getName()
+                + ", Desc: "
+                + locDTO.getDescription()
+                + ", Coords: ("
+                + locDTO.getLatitude()
+                + ", "
+                + locDTO.getLongitude()
+                + ")");
+      }
+
+    } catch (LocationAPIException e) {
+      logger.error(e.getMessage());
+    }
 
     try {
       userService.createUser(new CreateUserRequest("Donald", "Duck", "128937", "donald@andeby.no"));
