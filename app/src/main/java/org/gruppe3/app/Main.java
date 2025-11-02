@@ -36,7 +36,7 @@ public class Main {
   private static final String MYSQL_URL = "jdbc:mysql://" + MYSQL_HOST + ":3306/" + MYSQL_DB;
   private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-  public static void main(String[] args) throws UserRepositoryException {
+  public static void main(String[] args) {
 
     MySQLDatabase database = new MySQLDatabase(MYSQL_URL, MYSQL_USER, MYSQL_PASSWORD);
 
@@ -80,6 +80,17 @@ public class Main {
       userService.createUser(new CreateUserRequest("Ole", "Duck", "428937", "ole@andeby.no"));
       userService.createUser(new CreateUserRequest("Dole", "Duck", "528937", "dole@andeby.no"));
       userService.createUser(new CreateUserRequest("Doffen", "Duck", "628937", "doffen@andeby.no"));
+
+      ArrayList<User> usersWithIdFromDatabase = userRepository.getAllUsersFromDatabase();
+      for (User user : usersWithIdFromDatabase) {
+        logger.info(
+            "ID: "
+                + user.getUserId()
+                + ", Name: "
+                + user.getFirstName()
+                + " "
+                + user.getLastName());
+      }
     } catch (UserRepositoryException e) {
       logger.error(e.getMessage());
     }
@@ -92,12 +103,6 @@ public class Main {
               new Route("Bergen", "Oslo")));
     } catch (TicketRepositoryException e) {
       logger.error(e.getMessage());
-    }
-
-    ArrayList<User> usersWithIdFromDatabase = userRepository.getAllUsersFromDatabase();
-    for (User user : usersWithIdFromDatabase) {
-      logger.info(
-          "ID: " + user.getUserId() + ", Name: " + user.getFirstName() + " " + user.getLastName());
     }
 
     Javalin app =
