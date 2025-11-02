@@ -1,13 +1,13 @@
 <script setup>
 import { ref } from "vue";
 
-const message = ref("Ping");
+const message = ref("Ping fra frontend");
 
 const loopPingPong = async () => {
   while (true) {
     // Show "Ping"
-    message.value = "Ping";
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    message.value = "Ping fra frontend";
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Fetch "Pong" from backend
     try {
