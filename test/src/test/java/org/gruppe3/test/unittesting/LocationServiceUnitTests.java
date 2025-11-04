@@ -1,4 +1,4 @@
-package org.gruppe3.test;
+package org.gruppe3.test.unittesting;
 
 import org.gruppe3.core.domain.Location;
 import org.gruppe3.core.dto.SearchLocationRequest;

@@ -1,4 +1,4 @@
-package org.gruppe3.test;
+package org.gruppe3.test.unittesting;
 
 import java.util.ArrayList;
 import org.gruppe3.core.domain.Location;
@@ -45,7 +45,7 @@ public class TicketServiceUnitTests {
     // Assert
     // Fanger opp argumentet som ble sendt til createTicket i repositoryet
     ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
-    Mockito.verify(ticketRepositoryMock, Mockito.times(1)).createTicket(ticketCaptor.capture());
+    Mockito.verify(ticketRepositoryMock, Mockito.times(1)).createTicketInDatabase(ticketCaptor.capture());
 
     Ticket capturedTicket = ticketCaptor.getValue();
 

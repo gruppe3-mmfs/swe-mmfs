@@ -1,5 +1,6 @@
-package org.gruppe3.test;
+package org.gruppe3.test.unittesting;
 import org.gruppe3.core.domain.User;
+import org.gruppe3.core.dto.AssignUserToFamilyRequest;
 import org.gruppe3.core.dto.CreateUserRequest;
 import org.gruppe3.core.exception.UserRepositoryException;
 import org.gruppe3.core.port.out.UserRepositoryPort;
@@ -92,4 +93,31 @@ public class UserServiceUnitTests {
         // Verifiser at repositoryet ble forsøkt kalt kun en gang
         Mockito.verify(userRepositoryMock, Mockito.times(1)).createUser(Mockito.any(User.class));
     }
+
+    @Test
+    @DisplayName("assignUserToFamily - should assign user to family successfully")
+    public void assignUserToFamilySuccessfully() throws Exception {
+
+        // Arrange
+        int userId = 1;
+        int familyId = 42;
+
+        // Lager en forespørsel som simuererer klientens input
+        AssignUserToFamilyRequest request = new AssignUserToFamilyRequest(userId, familyId);
+
+        // Oppretter UserService med mock repository
+        UserService userService = new UserService(userRepositoryMock);
+
+        // Act
+        userService.assignUserToFamily(request);
+
+        // Assert
+        // Verifiserer så at assignUserToFamily i repositoryet ble kalt med riktig userId og familyId
+        Mockito.verify(userRepositoryMock, Mockito.times(1)).assignUserToFamily(userId, familyId);
+
+        // Verifiserer at ingen andre metoder på mock objektet ble kalt
+        Mockito.verifyNoMoreInteractions(userRepositoryMock);
+        
+    }
 }
+
