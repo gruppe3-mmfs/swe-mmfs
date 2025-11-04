@@ -1,0 +1,80 @@
+package org.gruppe3.storage.adapter;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import org.gruppe3.core.domain.Location;
+import org.gruppe3.core.domain.Ticket;
+import org.gruppe3.core.domain.Trip;
+import org.gruppe3.core.exception.TicketRepositoryException;
+import org.gruppe3.core.port.out.TicketRepositoryPort;
+
+public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
+  private Connection connection;
+
+  public TicketRepositoryMySQLAdapter(Connection connection) {
+    this.connection = connection;
+  }
+
+  @Override
+  public void createTicket(Ticket ticket) throws TicketRepositoryException {
+    String sql =
+        "INSERT INTO tickets (ticketHash, ticketType, ticketTripOrigin, ticketTripDestination)"
+            + " VALUES (?, ?, ?, ?)";
+
+    String lut = "SELECT * " + "FROM ticketTypes " + "WHERE ticketType = ?";
+
+    int ticketTypeIdFromLUT = 1; // Setter billett-type til "Normal" dersom vi ikke finner noe i LUT
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(lut)) {
+      preparedStatement.setString(1, ticket.getTicketType());
+      ResultSet result = preparedStatement.executeQuery();
+
+      if (result.next()) {
+        ticketTypeIdFromLUT = result.getInt("ticketTypeId");
+      }
+    } catch (SQLException e) {
+      throw new TicketRepositoryException(
+          "No ticketTypeId found for ticketType: " + ticket.getTicketType(), e);
+    }
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+      preparedStatement.setString(1, ticket.getTicketHash());
+      preparedStatement.setInt(2, ticketTypeIdFromLUT);
+      preparedStatement.setString(3, ticket.getTicketTrip().getFromLocation().getName());
+      preparedStatement.setString(4, ticket.getTicketTrip().getToLocation().getName());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new TicketRepositoryException("Could not create ticket in database", e);
+    }
+  }
+
+  @Override
+  public ArrayList<Ticket> getUserTickets(int userId) throws TicketRepositoryException {
+    String sql = "SELECT * " + "FROM tickets " + "WHERE ticketOwnerId = ?";
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+      preparedStatement.setInt(1, userId);
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      ArrayList<Ticket> tickets = new ArrayList<>();
+      int ticketIdResult = resultSet.getInt("ticketId");
+      String ticketHashResult = resultSet.getString("ticketHash");
+      String ticketTypeResult = resultSet.getString("ticketType");
+      String ticketTripOriginResult = resultSet.getString("ticketTripOrigin");
+      String ticketTripDestinationResult = resultSet.getString("ticketTripDestination");
+      Trip ticketTrip =
+          new Trip(new Location(ticketTripOriginResult), new Location(ticketTripDestinationResult));
+
+      Ticket ticket = new Ticket(ticketIdResult, ticketHashResult, ticketTypeResult, ticketTrip);
+      tickets.add(ticket);
+
+      return tickets;
+
+    } catch (SQLException e) {
+      throw new TicketRepositoryException("Could not retrieve user from database", e);
+    }
+  }
+}
