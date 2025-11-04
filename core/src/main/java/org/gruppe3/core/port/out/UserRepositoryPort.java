@@ -11,4 +11,6 @@ public interface UserRepositoryPort {
   User getUserById(int userId) throws UserRepositoryException;
 
   ArrayList<User> getAllUsersFromDatabase() throws UserRepositoryException;
+
+  // void assignUserToFamily(Family family) throws UserRepositoryException;
 }

@@ -22,4 +22,7 @@ public class UserService {
             request.getEmail());
     userRepository.createUser(user);
   }
+
+  // public void assignUserToFamily(assignUserToFamilyRequest request)
+  //     throws UserRepositoryException {}
 }

@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import org.gruppe3.core.domain.Location;
-import org.gruppe3.core.exception.LocationAPIException;
+import org.gruppe3.core.exception.TripRepositoryException;
 import org.gruppe3.core.port.out.LocationRepositoryPort;
 
 public class EnturLocationAdapter implements LocationRepositoryPort {
@@ -29,7 +29,7 @@ public class EnturLocationAdapter implements LocationRepositoryPort {
   }
 
   @Override
-  public ArrayList<Location> searchLocations(String query) throws LocationAPIException {
+  public ArrayList<Location> searchLocations(String query) throws TripRepositoryException {
     if (query == null || query.isBlank()) {
       return new ArrayList<>(); // Empty result for invalid input
     }
@@ -49,20 +49,20 @@ public class EnturLocationAdapter implements LocationRepositoryPort {
           httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
       if (response.statusCode() != 200) {
-        throw new LocationAPIException(
+        throw new TripRepositoryException(
             "EnTur API returned HTTP " + response.statusCode() + ": " + response.body());
       }
 
       return parseResponse(response.body());
 
-    } catch (LocationAPIException e) {
+    } catch (TripRepositoryException e) {
       throw e; // Re-throw our custom exception
     } catch (Exception e) {
-      throw new LocationAPIException("Failed to communicate with EnTur API", e);
+      throw new TripRepositoryException("Failed to communicate with EnTur API", e);
     }
   }
 
-  private ArrayList<Location> parseResponse(String jsonBody) throws LocationAPIException {
+  private ArrayList<Location> parseResponse(String jsonBody) throws TripRepositoryException {
     ArrayList<Location> locations = new ArrayList<>();
 
     try {
@@ -91,7 +91,7 @@ public class EnturLocationAdapter implements LocationRepositoryPort {
       }
 
     } catch (Exception e) {
-      throw new LocationAPIException("Failed to parse EnTur JSON response", e);
+      throw new TripRepositoryException("Failed to parse EnTur JSON response", e);
     }
 
     return locations;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.gruppe3.core.domain.Location;
 import org.gruppe3.core.dto.SearchLocationRequest;
 import org.gruppe3.core.dto.SearchLocationResult;
-import org.gruppe3.core.exception.LocationAPIException;
+import org.gruppe3.core.exception.TripRepositoryException;
 import org.gruppe3.core.port.out.LocationRepositoryPort;
 
 public class LocationService {
@@ -16,7 +16,7 @@ public class LocationService {
   }
 
   public SearchLocationResult searchLocations(SearchLocationRequest request)
-      throws LocationAPIException {
+      throws TripRepositoryException {
 
     ArrayList<Location> foundLocationResult =
         locationRepository.searchLocations(request.getLocation());

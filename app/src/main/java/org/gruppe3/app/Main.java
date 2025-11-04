@@ -47,7 +47,7 @@ public class Main {
       logger.info(froms.getLocations().getFirst().getId());
       logger.info(tos.getLocations().getFirst().getId());
 
-    } catch (LocationAPIException e) {
+    } catch (TripRepositoryException e) {
       logger.error(e.getMessage());
     }
 
