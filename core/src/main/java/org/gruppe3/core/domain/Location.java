@@ -1,11 +1,23 @@
 package org.gruppe3.core.domain;
 
 public class Location {
+
   private String id;
   private String name;
   private double latitude;
   private double longitude;
   private String description;
+
+  public Location(String name) {
+    this.name = name;
+  }
+
+  public Location(String name, double latitude, double longitude, String description) {
+    this.name = name;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.description = description;
+  }
 
   public Location(String id, String name, double latitude, double longitude, String description) {
     this.id = id;

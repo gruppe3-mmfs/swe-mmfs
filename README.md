@@ -63,18 +63,19 @@ Start the fullstack system:
 
 Reset MySQL volume and restart:
 
-    docker-compose rm -v -f mysql && docker-compose up
+    docker-compose down -v && docker-compose up --build
 
 ## 📁 Project Structure
 
     .
     ├── api/         # HTTP adapters (e.g., Entur, ping)
     ├── app/         # Application entrypoint and config
+    ├── config/      # MySQL config file
     ├── core/        # Domain, DTOs, ports, services
+    ├── diagram/     # Architecture diagrams
+    ├── frontend/    # Vue.js frontend (Vite)
+    ├── initdb/      # MySQL schema and dummydata scripts
+    ├── report/      # JaCoCo aggregated report (Code coverage)
     ├── storage/     # Database adapters and persistence
     ├── test/        # Shared test scaffolding
-    ├── report/      # JaCoCo aggregated report (Code coverage)
-    ├── frontend/    # Vue.js frontend (Vite)
-    ├── scripts/     # SQL schema and setup scripts
-    ├── diagram/     # Architecture diagrams
     └── docker-compose.yml

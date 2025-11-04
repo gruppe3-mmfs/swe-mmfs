@@ -13,6 +13,11 @@
   <name>api</name>
   <dependencies>
     <dependency>
+      <groupId>org.gruppe3</groupId>
+      <artifactId>core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>

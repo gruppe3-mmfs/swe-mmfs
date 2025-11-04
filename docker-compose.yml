@@ -4,7 +4,7 @@ networks:
 
 services:
   traefik:
-    image: traefik:v3.5.3
+    image: traefik:v3.5.4
     container_name: traefik
     command:
       - "--api.insecure=true"
@@ -92,14 +92,15 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=secret
       - MYSQL_DATABASE=prosjekt
-      - TZ=Europe/Oslo
-    
+      - MYSQL_INITDB_SKIP_TZINFO=1
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
+      - ./config/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./initdb:/docker-entrypoint-initdb.d:ro
       - mysql-data:/var/lib/mysql
     networks:
       - proxy
@@ -108,25 +109,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-
-  db-init:
-    image: mysql:9.5
-    depends_on:
-      mysql:
-        condition: service_healthy
-    restart: "no"
-    environment:
-      - MYSQL_HOST=mysql
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=secret
-      - MYSQL_DB=prosjekt
-    volumes:
-      - ./scripts/schema.sql:/schema.sql:ro,z
-    entrypoint: >
-      /bin/sh -c "until mysqladmin ping -h $$MYSQL_HOST --silent; do sleep 1; done &&
-                  mysql -h $$MYSQL_HOST -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DB < ./schema.sql"
-    networks:
-      - proxy
 
   phpmyadmin:
     image: phpmyadmin:5.2.3
