@@ -74,6 +74,12 @@ public class Main {
     }
 
     try {
+      userService.assignUserToFamily(new AssignUserToFamilyRequest(1, 1));
+    } catch (UserRepositoryException e) {
+      logger.error(e.getMessage());
+    }
+
+    try {
       ticketService.createTicket(
           new CreateTicketRequest(
               "2813094bb9d066d29c9b8df77de14975b1fa1746f1ca088acdf6ff253ade0063",

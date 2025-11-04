@@ -19,7 +19,7 @@ public class TicketService {
   public void createTicket(CreateTicketRequest request) throws TicketRepositoryException {
     Ticket ticket =
         new Ticket(request.getTicketHash(), request.getTicketType(), request.getTicketTrip());
-    ticketRepository.createTicket(ticket);
+    ticketRepository.createTicketInDatabase(ticket);
   }
 
   public GetUserTicketsResult getUserTickets(GetUserTicketsRequest request)

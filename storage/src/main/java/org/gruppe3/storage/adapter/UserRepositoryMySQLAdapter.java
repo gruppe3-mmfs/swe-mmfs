@@ -80,4 +80,19 @@ public class UserRepositoryMySQLAdapter implements UserRepositoryPort {
       throw new UserRepositoryException("Could not retrieve all users from database", e);
     }
   }
+
+  @Override
+  public void assignUserToFamily(int userId, int familyId) throws UserRepositoryException {
+    String sql = "UPDATE users " + "SET userFamilyId = (?) " + "WHERE userId = (?)";
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+      preparedStatement.setInt(1, familyId);
+      preparedStatement.setInt(2, userId);
+      preparedStatement.executeUpdate();
+
+    } catch (SQLException e) {
+      throw new UserRepositoryException("Could not update userFamilyId for user " + userId, e);
+    }
+  }
 }

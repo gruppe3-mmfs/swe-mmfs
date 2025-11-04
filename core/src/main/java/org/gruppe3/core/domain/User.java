@@ -7,6 +7,22 @@ public class User {
   private String lastName;
   private String phoneNumber;
   private String email;
+  private int familyId;
+
+  public User(
+      int userId,
+      String firstName,
+      String lastName,
+      String phoneNumber,
+      String email,
+      int familyId) {
+    this.userId = userId;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phoneNumber = phoneNumber;
+    this.email = email;
+    this.familyId = familyId;
+  }
 
   public User(int userId, String firstName, String lastName, String phoneNumber, String email) {
     this.userId = userId;
@@ -61,5 +77,13 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public int getFamilyId() {
+    return familyId;
+  }
+
+  public void setFamilyId(int familyId) {
+    this.familyId = familyId;
   }
 }
