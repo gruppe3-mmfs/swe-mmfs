@@ -11,9 +11,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import org.gruppe3.core.domain.Location;
 import org.gruppe3.core.exception.LocationAPIException;
-import org.gruppe3.core.port.out.LocationAPIPort;
+import org.gruppe3.core.port.out.LocationRepositoryPort;
 
-public class EnturLocationAdapter implements LocationAPIPort {
+public class EnturLocationAdapter implements LocationRepositoryPort {
 
   private static final String CLIENT_NAME = "hiof_utvikling-gruppe3";
 

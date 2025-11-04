@@ -4,25 +4,13 @@ import io.javalin.Javalin;
 import java.sql.Connection;
 import java.util.ArrayList;
 import org.gruppe3.api.PingController;
-import org.gruppe3.api.adapter.entur.EnturLocationAdapter;
-import org.gruppe3.core.domain.Route;
-import org.gruppe3.core.domain.User;
-import org.gruppe3.core.dto.CreateTicketRequest;
-import org.gruppe3.core.dto.CreateUserRequest;
-import org.gruppe3.core.dto.LocationDTO;
-import org.gruppe3.core.dto.SearchLocationRequest;
-import org.gruppe3.core.dto.SearchLocationResult;
-import org.gruppe3.core.exception.LocationAPIException;
-import org.gruppe3.core.exception.TicketRepositoryException;
-import org.gruppe3.core.exception.UserRepositoryException;
-import org.gruppe3.core.port.out.LocationAPIPort;
-import org.gruppe3.core.port.out.TicketRepositoryPort;
-import org.gruppe3.core.port.out.UserRepositoryPort;
-import org.gruppe3.core.service.LocationService;
-import org.gruppe3.core.service.TicketService;
-import org.gruppe3.core.service.UserService;
-import org.gruppe3.storage.adapter.TicketRepositoryMySQLAdapter;
-import org.gruppe3.storage.adapter.UserRepositoryMySQLAdapter;
+import org.gruppe3.api.adapter.entur.*;
+import org.gruppe3.core.domain.*;
+import org.gruppe3.core.dto.*;
+import org.gruppe3.core.exception.*;
+import org.gruppe3.core.port.out.*;
+import org.gruppe3.core.service.*;
+import org.gruppe3.storage.adapter.*;
 import org.gruppe3.storage.database.MySQLDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,30 +32,20 @@ public class Main {
 
     UserRepositoryPort userRepository = new UserRepositoryMySQLAdapter(dbConnection);
     TicketRepositoryPort ticketRepository = new TicketRepositoryMySQLAdapter(dbConnection);
-    LocationAPIPort locationAPI = new EnturLocationAdapter();
+    LocationRepositoryPort locationPort = new EnturLocationAdapter();
 
     UserService userService = new UserService(userRepository);
     TicketService ticketService = new TicketService(ticketRepository);
-    LocationService locationService = new LocationService(locationAPI);
+    LocationService locationService = new LocationService(locationPort);
 
     try {
-      SearchLocationResult locationsFromEntur =
-          locationService.searchLocations(new SearchLocationRequest("Halden"));
+      SearchLocationResult froms =
+          locationService.searchLocations(new SearchLocationRequest("Halden stasjon"));
+      SearchLocationResult tos =
+          locationService.searchLocations(new SearchLocationRequest("Oslo S"));
 
-      for (LocationDTO locDTO : locationsFromEntur.getLocationDTOs()) {
-        logger.info(
-            "ID: "
-                + locDTO.getId()
-                + ", Name: "
-                + locDTO.getName()
-                + ", Desc: "
-                + locDTO.getDescription()
-                + ", Coords: ("
-                + locDTO.getLatitude()
-                + ", "
-                + locDTO.getLongitude()
-                + ")");
-      }
+      logger.info(froms.getLocations().getFirst().getId());
+      logger.info(tos.getLocations().getFirst().getId());
 
     } catch (LocationAPIException e) {
       logger.error(e.getMessage());
@@ -100,7 +78,7 @@ public class Main {
           new CreateTicketRequest(
               "2813094bb9d066d29c9b8df77de14975b1fa1746f1ca088acdf6ff253ade0063",
               "Student",
-              new Route("Bergen", "Oslo")));
+              new Trip(new Location("Bergen"), new Location("Oslo"))));
     } catch (TicketRepositoryException e) {
       logger.error(e.getMessage());
     }

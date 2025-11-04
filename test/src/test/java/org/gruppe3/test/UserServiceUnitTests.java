@@ -1,8 +1,9 @@
 package org.gruppe3.test;
 
 import java.util.ArrayList;
-import org.gruppe3.core.domain.Route;
+import org.gruppe3.core.domain.Location;
 import org.gruppe3.core.domain.Ticket;
+import org.gruppe3.core.domain.Trip;
 import org.gruppe3.core.dto.GetUserTicketsRequest;
 import org.gruppe3.core.dto.GetUserTicketsResult;
 import org.gruppe3.core.port.out.TicketRepositoryPort;
@@ -27,12 +28,22 @@ public class UserServiceUnitTests {
     // Arrange
     // Her oppretter vi stub data som skal returneres av mock objektet
     ArrayList<Ticket> stubbedTickets = new ArrayList<>();
-    Route route1 = new Route("Station A", "Station B");
-    Route route2 = new Route("Station C", "Station D");
-    Route route3 = new Route("Station E", "Station F");
-    stubbedTickets.add(new Ticket(1, "123abc", "Normal", route1, 1));
-    stubbedTickets.add(new Ticket(2, "456def", "Student", route2, 1));
-    stubbedTickets.add(new Ticket(3, "789ghi", "Senior", route3, 1));
+
+    Location loc1 = new Location("Station A");
+    Location loc2 = new Location("Station B");
+    Location loc3 = new Location("Station C");
+    Location loc4 = new Location("Station D");
+    Location loc5 = new Location("Station E");
+    Location loc6 = new Location("Station F");
+
+    Trip trip1 = new Trip(loc1, loc2);
+    Trip trip2 = new Trip(loc3, loc4);
+    Trip trip3 = new Trip(loc5, loc6);
+
+    stubbedTickets.add(new Ticket(1, "123abc", "Normal", trip1, 1));
+    stubbedTickets.add(new Ticket(2, "456def", "Student", trip2, 1));
+    stubbedTickets.add(new Ticket(3, "789ghi", "Senior", trip3, 1));
+
     Mockito.when(ticketRepositoryMock.getUserTickets(1)).thenReturn(stubbedTickets);
 
     TicketService ticketService = new TicketService(ticketRepositoryMock);

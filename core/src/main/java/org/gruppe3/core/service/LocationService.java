@@ -2,39 +2,25 @@ package org.gruppe3.core.service;
 
 import java.util.ArrayList;
 import org.gruppe3.core.domain.Location;
-import org.gruppe3.core.dto.LocationDTO;
 import org.gruppe3.core.dto.SearchLocationRequest;
 import org.gruppe3.core.dto.SearchLocationResult;
 import org.gruppe3.core.exception.LocationAPIException;
-import org.gruppe3.core.port.out.LocationAPIPort;
+import org.gruppe3.core.port.out.LocationRepositoryPort;
 
 public class LocationService {
 
-  private LocationAPIPort locationAPI;
+  private LocationRepositoryPort locationRepository;
 
-  public LocationService(LocationAPIPort locationAPI) {
-    this.locationAPI = locationAPI;
+  public LocationService(LocationRepositoryPort locationRepository) {
+    this.locationRepository = locationRepository;
   }
 
   public SearchLocationResult searchLocations(SearchLocationRequest request)
       throws LocationAPIException {
 
-    ArrayList<Location> foundLocations = locationAPI.searchLocations(request.getLocation());
-
-    ArrayList<LocationDTO> foundLocationsResult = new ArrayList<>();
-
-    for (Location location : foundLocations) {
-      LocationDTO locationDTO =
-          new LocationDTO(
-              location.getId(),
-              location.getName(),
-              location.getLatitude(),
-              location.getLongitude(),
-              location.getDescription());
-      foundLocationsResult.add(locationDTO);
-    }
-
-    SearchLocationResult result = new SearchLocationResult(foundLocationsResult);
+    ArrayList<Location> foundLocationResult =
+        locationRepository.searchLocations(request.getLocation());
+    SearchLocationResult result = new SearchLocationResult(foundLocationResult);
 
     return result;
   }

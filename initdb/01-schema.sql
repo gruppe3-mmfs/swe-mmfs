@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS tickets (
 	ticketId INT AUTO_INCREMENT PRIMARY KEY,
 	ticketHash VARCHAR(64) NOT NULL UNIQUE,
 	ticketType INT NOT NULL,
-	ticketRouteOrigin VARCHAR(50) NOT NULL,
-	ticketRouteDestination VARCHAR(50) NOT NULL,
+	ticketTripOrigin VARCHAR(50) NOT NULL,
+	ticketTripDestination VARCHAR(50) NOT NULL,
 	ticketOwnerId INT,
 	FOREIGN KEY (ticketType) REFERENCES ticketTypes(ticketTypeId),
 	FOREIGN KEY (ticketOwnerId) REFERENCES users(userId)
