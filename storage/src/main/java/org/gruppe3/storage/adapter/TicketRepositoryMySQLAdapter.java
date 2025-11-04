@@ -5,8 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import org.gruppe3.core.domain.Route;
+import org.gruppe3.core.domain.Location;
 import org.gruppe3.core.domain.Ticket;
+import org.gruppe3.core.domain.Trip;
 import org.gruppe3.core.exception.TicketRepositoryException;
 import org.gruppe3.core.port.out.TicketRepositoryPort;
 
@@ -20,7 +21,7 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
   @Override
   public void createTicket(Ticket ticket) throws TicketRepositoryException {
     String sql =
-        "INSERT INTO tickets (ticketHash, ticketType, ticketRouteOrigin, ticketRouteDestination)"
+        "INSERT INTO tickets (ticketHash, ticketType, ticketTripOrigin, ticketTripDestination)"
             + " VALUES (?, ?, ?, ?)";
 
     String lut = "SELECT * " + "FROM ticketTypes " + "WHERE ticketType = ?";
@@ -42,8 +43,8 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
       preparedStatement.setString(1, ticket.getTicketHash());
       preparedStatement.setInt(2, ticketTypeIdFromLUT);
-      preparedStatement.setString(3, ticket.getTicketRoute().getFromName());
-      preparedStatement.setString(4, ticket.getTicketRoute().getToName());
+      preparedStatement.setString(3, ticket.getTicketTrip().getFromLocation().getName());
+      preparedStatement.setString(4, ticket.getTicketTrip().getToLocation().getName());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       throw new TicketRepositoryException("Could not create ticket in database", e);
@@ -62,11 +63,12 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
       int ticketIdResult = resultSet.getInt("ticketId");
       String ticketHashResult = resultSet.getString("ticketHash");
       String ticketTypeResult = resultSet.getString("ticketType");
-      String ticketRouteOriginResult = resultSet.getString("ticketRouteOrigin");
-      String ticketRouteDestinationResult = resultSet.getString("ticketRouteDestination");
-      Route ticketRoute = new Route(ticketRouteOriginResult, ticketRouteDestinationResult);
+      String ticketTripOriginResult = resultSet.getString("ticketTripOrigin");
+      String ticketTripDestinationResult = resultSet.getString("ticketTripDestination");
+      Trip ticketTrip =
+          new Trip(new Location(ticketTripOriginResult), new Location(ticketTripDestinationResult));
 
-      Ticket ticket = new Ticket(ticketIdResult, ticketHashResult, ticketTypeResult, ticketRoute);
+      Ticket ticket = new Ticket(ticketIdResult, ticketHashResult, ticketTypeResult, ticketTrip);
       tickets.add(ticket);
 
       return tickets;

@@ -78,7 +78,7 @@ public class Main {
           new CreateTicketRequest(
               "2813094bb9d066d29c9b8df77de14975b1fa1746f1ca088acdf6ff253ade0063",
               "Student",
-              new Route("Bergen", "Oslo")));
+              new Trip(new Location("Bergen"), new Location("Oslo"))));
     } catch (TicketRepositoryException e) {
       logger.error(e.getMessage());
     }

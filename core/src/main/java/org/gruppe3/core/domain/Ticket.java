@@ -5,29 +5,29 @@ public class Ticket {
   private int ticketId;
   private String ticketHash;
   private String ticketType;
-  private Route ticketRoute;
+  private Trip ticketTrip;
   private int ticketOwnerId;
 
   public Ticket(
-      int ticketId, String ticketHash, String ticketType, Route ticketRoute, int ticketOwnerId) {
+      int ticketId, String ticketHash, String ticketType, Trip ticketTrip, int ticketOwnerId) {
     this.ticketId = ticketId;
     this.ticketHash = ticketHash;
     this.ticketType = ticketType;
-    this.ticketRoute = ticketRoute;
+    this.ticketTrip = ticketTrip;
     this.ticketOwnerId = ticketOwnerId;
   }
 
-  public Ticket(int ticketId, String ticketHash, String ticketType, Route ticketRoute) {
+  public Ticket(int ticketId, String ticketHash, String ticketType, Trip ticketTrip) {
     this.ticketId = ticketId;
     this.ticketHash = ticketHash;
     this.ticketType = ticketType;
-    this.ticketRoute = ticketRoute;
+    this.ticketTrip = ticketTrip;
   }
 
-  public Ticket(String ticketHash, String ticketType, Route ticketRoute) {
+  public Ticket(String ticketHash, String ticketType, Trip ticketTrip) {
     this.ticketHash = ticketHash;
     this.ticketType = ticketType;
-    this.ticketRoute = ticketRoute;
+    this.ticketTrip = ticketTrip;
   }
 
   public int getTicketId() {
@@ -54,12 +54,12 @@ public class Ticket {
     this.ticketType = ticketType;
   }
 
-  public Route getTicketRoute() {
-    return ticketRoute;
+  public Trip getTicketTrip() {
+    return ticketTrip;
   }
 
-  public void setTicketRoute(Route ticketRoute) {
-    this.ticketRoute = ticketRoute;
+  public void setTicketTrip(Trip ticketTrip) {
+    this.ticketTrip = ticketTrip;
   }
 
   public int getTicketOwnerId() {

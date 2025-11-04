@@ -12,6 +12,11 @@ public class Trip {
   private Location toLocation;
   private ArrayList<Leg> legs;
 
+  public Trip(Location fromLocation, Location toLocation) {
+    this.fromLocation = fromLocation;
+    this.toLocation = toLocation;
+  }
+
   public Trip(
       String id,
       LocalDateTime departureTime,
@@ -25,11 +30,6 @@ public class Trip {
     this.fromLocation = fromLocation;
     this.toLocation = toLocation;
     this.legs = legs != null ? legs : new ArrayList<>();
-  }
-
-  public Trip(LocalDateTime departureTime, LocalDateTime arrivalTime) {
-    this.departureTime = departureTime;
-    this.arrivalTime = arrivalTime;
   }
 
   public String getId() {
