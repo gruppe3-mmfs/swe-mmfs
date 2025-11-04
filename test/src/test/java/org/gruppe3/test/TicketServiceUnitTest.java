@@ -17,13 +17,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceUnitTests {
+public class TicketServiceUnitTest {
 
   @Mock TicketRepositoryPort ticketRepositoryMock;
 
   @Test
   @DisplayName("getUserTickets - should return correct tickets for user")
-  public void getUserTickets() throws Exception {
+  public void getUserTicketsSuccessfully() throws Exception {
 
     // Arrange
     // Her oppretter vi stub data som skal returneres av mock objektet
@@ -71,4 +71,5 @@ public class UserServiceUnitTests {
         result.getTicketDTOs().get(2).getTicketType(),
         "Third ticket type should be 'Senior'");
   }
+
 }
