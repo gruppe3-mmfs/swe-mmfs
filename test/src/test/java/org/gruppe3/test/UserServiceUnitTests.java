@@ -1,6 +1,7 @@
 package org.gruppe3.test;
 import org.gruppe3.core.domain.User;
 import org.gruppe3.core.dto.CreateUserRequest;
+import org.gruppe3.core.exception.UserRepositoryException;
 import org.gruppe3.core.port.out.UserRepositoryPort;
 import org.gruppe3.core.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 // Denne delen av koden forteller at JUnit skal bruke Mockito-integrasjon for å håndtere mock-objekter
 // Det gjør at alle @Mock-felter blir initialisert automatisk før hver test kjøres
 @ExtendWith(MockitoExtension.class)
-public class UserServiceUnitTest {
+public class UserServiceUnitTests {
 
     // Må mocke UserRepositoryPort fordi UserService avhenger av denne for å utføre funksjonene sine
     @Mock UserRepositoryPort userRepositoryMock;
@@ -59,5 +60,36 @@ public class UserServiceUnitTest {
         // Verifiserer til slutt at ingen andre metoder ble kalt
         Mockito.verifyNoMoreInteractions(userRepositoryMock);
 
+    }
+
+    @Test
+    @DisplayName("createUser - should throw UserRepositoryException when repository fails")
+    public void createUserThrowsUserRepositoryExceptionSuccessfully() throws Exception {
+
+        // Arrange
+        CreateUserRequest request = new CreateUserRequest("Kari", "Nordmann", "99999999", "kari@nordmann.no");
+        UserService userService = new UserService(userRepositoryMock);
+
+        // Lager en cause som skal brukes videre i exception
+        Throwable cause = new RuntimeException("Something went horribly wrong!");
+
+        // Mock repositoryet til å kaste UserRepositoryException med cause
+        Mockito.doThrow(new UserRepositoryException("Database error", cause))
+               .when(userRepositoryMock)
+               .createUser(Mockito.any(User.class));
+
+        // Act
+        UserRepositoryException ex = Assertions.assertThrows(
+                UserRepositoryException.class,
+                () -> userService.createUser(request)
+        );
+
+        // Assert
+        // Sjekker at message og cause er riktig
+        Assertions.assertEquals("Database error", ex.getMessage());
+        Assertions.assertEquals(cause, ex.getCause());
+
+        // Verifiser at repositoryet ble forsøkt kalt kun en gang
+        Mockito.verify(userRepositoryMock, Mockito.times(1)).createUser(Mockito.any(User.class));
     }
 }
