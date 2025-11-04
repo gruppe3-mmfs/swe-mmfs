@@ -77,4 +77,10 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
       throw new TicketRepositoryException("Could not retrieve user from database", e);
     }
   }
+
+  @Override
+  public void buyTicket(int userId, Ticket ticket) throws TicketRepositoryException {
+    // TODO Auto-generated method stub
+
+  }
 }
