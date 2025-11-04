@@ -23,7 +23,7 @@ public abstract class TestDatabase {
     // Setter inn dummy-data i user-tabellen
     public void insertIntoUsersTable() throws Exception {
         String sql = "Insert INTO users (firstName, lastName, phoneNumber, email, familyId)" +
-        "VALUES (?, ?, ?, ?, ?, ?)";
+        "VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, 1);
