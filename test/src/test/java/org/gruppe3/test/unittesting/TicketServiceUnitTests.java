@@ -45,7 +45,7 @@ public class TicketServiceUnitTests {
     // Assert
     // Fanger opp argumentet som ble sendt til createTicket i repositoryet
     ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
-    Mockito.verify(ticketRepositoryMock, Mockito.times(1)).createTicketInDatabase(ticketCaptor.capture());
+    Mockito.verify(ticketRepositoryMock, Mockito.times(1)).createTicket(ticketCaptor.capture());
 
     Ticket capturedTicket = ticketCaptor.getValue();
 
