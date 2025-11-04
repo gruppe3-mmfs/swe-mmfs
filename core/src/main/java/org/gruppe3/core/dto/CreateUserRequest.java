@@ -1,6 +1,7 @@
 package org.gruppe3.core.dto;
 
 public class CreateUserRequest {
+
   private final String firstName;
   private final String lastName;
   private final String phoneNumber;
@@ -12,7 +13,6 @@ public class CreateUserRequest {
     this.phoneNumber = phoneNumber;
     this.email = email;
   }
-
 
   public String getFirstName() {
     return firstName;
