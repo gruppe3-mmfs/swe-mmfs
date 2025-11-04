@@ -47,7 +47,7 @@ public class Main {
       logger.info(froms.getLocations().getFirst().getId());
       logger.info(tos.getLocations().getFirst().getId());
 
-    } catch (LocationAPIException e) {
+    } catch (TripRepositoryException e) {
       logger.error(e.getMessage());
     }
 
@@ -69,6 +69,12 @@ public class Main {
                 + " "
                 + user.getLastName());
       }
+    } catch (UserRepositoryException e) {
+      logger.error(e.getMessage());
+    }
+
+    try {
+      userService.assignUserToFamily(new AssignUserToFamilyRequest(1, 1));
     } catch (UserRepositoryException e) {
       logger.error(e.getMessage());
     }

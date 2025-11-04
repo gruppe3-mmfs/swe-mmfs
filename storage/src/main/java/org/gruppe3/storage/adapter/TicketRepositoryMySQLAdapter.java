@@ -19,7 +19,7 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
   }
 
   @Override
-  public void createTicket(Ticket ticket) throws TicketRepositoryException {
+  public void createTicketInDatabase(Ticket ticket) throws TicketRepositoryException {
     String sql =
         "INSERT INTO tickets (ticketHash, ticketType, ticketTripOrigin, ticketTripDestination)"
             + " VALUES (?, ?, ?, ?)";

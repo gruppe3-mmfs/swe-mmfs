@@ -6,7 +6,9 @@ import org.gruppe3.core.exception.TicketRepositoryException;
 
 public interface TicketRepositoryPort {
 
-  void createTicket(Ticket ticket) throws TicketRepositoryException;
+  void createTicketInDatabase(Ticket ticket) throws TicketRepositoryException;
 
   ArrayList<Ticket> getUserTickets(int userId) throws TicketRepositoryException;
+
+  // void buyTicket(User user, Ticket ticket) throws TicketRepositoryException;
 }
