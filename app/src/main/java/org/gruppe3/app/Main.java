@@ -89,6 +89,14 @@ public class Main {
       logger.error(e.getMessage());
     }
 
+    try {
+      ticketService.buyTicket(new BuyTicketRequest(1, "Student", "Oslo", "Trondheim"));
+    } catch (TicketRepositoryException e) {
+      logger.error(e.getMessage());
+    } catch (BuyTicketRequestException e) {
+      logger.error(e.getMessage());
+    }
+
     Javalin app =
         Javalin.create(
                 config -> {

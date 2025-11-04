@@ -19,7 +19,7 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
   }
 
   @Override
-  public void createTicketInDatabase(Ticket ticket) throws TicketRepositoryException {
+  public void createTicket(Ticket ticket) throws TicketRepositoryException {
     String sql =
         "INSERT INTO tickets (ticketHash, ticketType, ticketTripOrigin, ticketTripDestination)"
             + " VALUES (?, ?, ?, ?)";
@@ -80,7 +80,35 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
 
   @Override
   public void buyTicket(int userId, Ticket ticket) throws TicketRepositoryException {
-    // TODO Auto-generated method stub
+    String sql =
+        "INSERT INTO tickets (ticketHash, ticketType, ticketTripOrigin, ticketTripDestination,"
+            + " ticketOwnerId) VALUES (?, ?, ?, ?, ?)";
 
+    String lut = "SELECT * " + "FROM ticketTypes " + "WHERE ticketType = ?";
+
+    int ticketTypeIdFromLUT = 1; // Setter billett-type til "Normal" dersom vi ikke finner noe i LUT
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(lut)) {
+      preparedStatement.setString(1, ticket.getTicketType());
+      ResultSet result = preparedStatement.executeQuery();
+
+      if (result.next()) {
+        ticketTypeIdFromLUT = result.getInt("ticketTypeId");
+      }
+    } catch (SQLException e) {
+      throw new TicketRepositoryException(
+          "No ticketTypeId found for ticketType: " + ticket.getTicketType(), e);
+    }
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+      preparedStatement.setString(1, ticket.getTicketHash());
+      preparedStatement.setInt(2, ticketTypeIdFromLUT);
+      preparedStatement.setString(3, ticket.getTicketTrip().getFromLocation().getName());
+      preparedStatement.setString(4, ticket.getTicketTrip().getToLocation().getName());
+      preparedStatement.setInt(5, userId);
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new TicketRepositoryException("Could not create ticket in database", e);
+    }
   }
 }
