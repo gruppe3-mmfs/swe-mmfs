@@ -79,3 +79,16 @@ Reset MySQL volume and restart:
     ├── storage/     # Database adapters and persistence
     ├── test/        # Shared test scaffolding
     └── docker-compose.yml
+
+## Testing
+
+I dette prosjektet bruker vi JUnit5 og Mockito for enhetstesting. Testene følger den velkjente AAA-strukturen (Arrange, Act, Assert) for å sikre både lesbarhet og forståelse av testene.
+
+Vi har valgt å teste på følgende måter:
+
+- Servicelagene "UserService", "TicketService" og "LocationService" testes isolert med mockede repositories.
+- Exception-tester sikrer at feil i repository eller API blir håndtert på riktig måte.
+- Domeneklassene "Trip", "Location", "User" osv blir ikke testet ettersom at det ikke har noe for seg i vårt prosjekt. Det kunne eventuelt vært et poeng å bruke såkalte "smoke tests" for å verifisere at konstruktørene og getterne fungerer slik de skal, men dette har vi valgt bort å gjøre.
+- Våre tester demonstrerer hvordan man kan bruke ArgumentCaptor for å verifisere data som blir brukt i portene.
+
+> Se i UserServiceUnitTests-klassen for utfyllende kommentarer vedrørende testene. Der står det forklart hvordan testene våre er bygget opp etter AAA-strukturen.
