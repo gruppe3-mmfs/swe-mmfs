@@ -111,4 +111,11 @@ public class TicketRepositoryMySQLAdapter implements TicketRepositoryPort {
       throw new TicketRepositoryException("Could not create ticket in database", e);
     }
   }
+
+  @Override
+  public void shareTicket(int userId, Ticket ticket, int newOwnerUserId)
+      throws TicketRepositoryException {
+    // TODO Auto-generated method stub
+
+  }
 }

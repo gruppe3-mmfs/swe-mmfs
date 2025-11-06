@@ -11,4 +11,6 @@ public interface TicketRepositoryPort {
   ArrayList<Ticket> getUserTickets(int userId) throws TicketRepositoryException;
 
   void buyTicket(int userId, Ticket ticket) throws TicketRepositoryException;
+
+  void shareTicket(int userId, Ticket ticket, int newOwnerUserId) throws TicketRepositoryException;
 }

@@ -8,6 +8,7 @@ import org.gruppe3.core.dto.BuyTicketRequest;
 import org.gruppe3.core.dto.CreateTicketRequest;
 import org.gruppe3.core.dto.GetUserTicketsRequest;
 import org.gruppe3.core.dto.GetUserTicketsResult;
+import org.gruppe3.core.dto.ShareTicketWithUserRequest;
 import org.gruppe3.core.exception.TicketRepositoryException;
 import org.gruppe3.core.port.out.TicketRepositoryPort;
 
@@ -56,5 +57,14 @@ public class TicketService {
     Ticket ticket = new Ticket(request.getTicketHash(), request.getTicketType(), trip);
 
     ticketRepository.buyTicket(request.getUserId(), ticket);
+  }
+
+  public void shareTicket(ShareTicketWithUserRequest request) throws TicketRepositoryException {
+
+    // Henter brukerens billetter
+    ArrayList<Ticket> userTickets = ticketRepository.getUserTickets(request.getUserId());
+
+    // Må sjekke om userId finnes i tickets (ticketOwnerId)
+
   }
 }
