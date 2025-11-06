@@ -23,7 +23,6 @@ public class TicketServiceUnitTests {
 
   @Mock TicketRepositoryPort ticketRepositoryMock;
 
-
   @Test
   @DisplayName("createTicket - should create ticket successfully")
   public void createTicketSuccessfully() throws Exception {
@@ -36,8 +35,7 @@ public class TicketServiceUnitTests {
     Location toLocation = new Location("Halden Stasjon");
     Trip trip = new Trip(fromLocation, toLocation);
 
-    CreateTicketRequest request =
-        new CreateTicketRequest("GeneratedHashCode", "Normal", trip);
+    CreateTicketRequest request = new CreateTicketRequest("GeneratedHashCode", "Normal", trip);
 
     // Act
     ticketService.createTicket(request);
@@ -54,7 +52,6 @@ public class TicketServiceUnitTests {
     Assertions.assertEquals("Normal", capturedTicket.getTicketType());
     Assertions.assertEquals(trip, capturedTicket.getTicketTrip());
   }
-
 
   @Test
   @DisplayName("getUserTickets - should return correct tickets for user")
@@ -92,19 +89,18 @@ public class TicketServiceUnitTests {
     // Assert
     // Sjekker her om resultatet er som forventet
     Assertions.assertEquals(1, result.getUserId());
-    Assertions.assertEquals(3, result.getTicketDTOs().size());
+    Assertions.assertEquals(3, result.getTickets().size());
     Assertions.assertEquals(
         "Normal",
-        result.getTicketDTOs().get(0).getTicketType(),
+        result.getTickets().get(0).getTicketType(),
         "First ticket type should be 'Normal'");
     Assertions.assertEquals(
         "Student",
-        result.getTicketDTOs().get(1).getTicketType(),
+        result.getTickets().get(1).getTicketType(),
         "Second ticket type should be 'Student'");
     Assertions.assertEquals(
         "Senior",
-        result.getTicketDTOs().get(2).getTicketType(),
+        result.getTickets().get(2).getTicketType(),
         "Third ticket type should be 'Senior'");
   }
-
 }

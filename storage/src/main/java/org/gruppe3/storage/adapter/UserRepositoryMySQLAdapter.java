@@ -34,22 +34,27 @@ public class UserRepositoryMySQLAdapter implements UserRepositoryPort {
 
   @Override
   public User getUserById(int userId) throws UserRepositoryException {
-    String sql = "SELECT userId " + "FROM users " + "WHERE userId = ?";
+    String sql = "SELECT * FROM users WHERE userId = ?";
 
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
       preparedStatement.setInt(1, userId);
       ResultSet resultSet = preparedStatement.executeQuery();
 
-      int userIdResult = resultSet.getInt("userId");
-      String firstNameResult = resultSet.getString("firstName");
-      String lastNameResult = resultSet.getString("lastName");
-      String phoneNumberResult = resultSet.getString("phoneNumber");
-      String emailResult = resultSet.getString("email");
+      if (resultSet.next()) {
+        int userIdResult = resultSet.getInt("userId");
+        String firstNameResult = resultSet.getString("firstName");
+        String lastNameResult = resultSet.getString("lastName");
+        String phoneNumberResult = resultSet.getString("phoneNumber");
+        String emailResult = resultSet.getString("email");
 
-      User user =
-          new User(userIdResult, firstNameResult, lastNameResult, phoneNumberResult, emailResult);
+        User user =
+            new User(userIdResult, firstNameResult, lastNameResult, phoneNumberResult, emailResult);
 
-      return user;
+        return user;
+      } else {
+        throw new UserRepositoryException("No user found with userId: " + userId);
+      }
+
     } catch (SQLException e) {
       throw new UserRepositoryException("Could not retrieve user from database", e);
     }
@@ -62,20 +67,30 @@ public class UserRepositoryMySQLAdapter implements UserRepositoryPort {
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
       ArrayList<User> users = new ArrayList<>();
-      ResultSet resultSet = preparedStatement.executeQuery();
-      while (resultSet.next()) {
-        int userIdResult = resultSet.getInt("userId");
-        String firstNameResult = resultSet.getString("firstName");
-        String lastNameResult = resultSet.getString("lastName");
-        String phoneNumberResult = resultSet.getString("phoneNumber");
-        String emailResult = resultSet.getString("email");
 
-        User user =
-            new User(userIdResult, firstNameResult, lastNameResult, phoneNumberResult, emailResult);
-        users.add(user);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (!resultSet.next()) {
+          throw new UserRepositoryException("Could not find any users");
+        } else {
+
+          int userIdResult = resultSet.getInt("userId");
+          String firstNameResult = resultSet.getString("firstName");
+          String lastNameResult = resultSet.getString("lastName");
+          String phoneNumberResult = resultSet.getString("phoneNumber");
+          String emailResult = resultSet.getString("email");
+
+          do {
+            User user =
+                new User(
+                    userIdResult, firstNameResult, lastNameResult, phoneNumberResult, emailResult);
+            users.add(user);
+
+          } while (resultSet.next());
+        }
       }
 
       return users;
+
     } catch (SQLException e) {
       throw new UserRepositoryException("Could not retrieve all users from database", e);
     }
@@ -83,7 +98,7 @@ public class UserRepositoryMySQLAdapter implements UserRepositoryPort {
 
   @Override
   public void assignUserToFamily(int userId, int familyId) throws UserRepositoryException {
-    String sql = "UPDATE users " + "SET userFamilyId = (?) " + "WHERE userId = (?)";
+    String sql = "UPDATE users " + "SET userFamilyId = ? " + "WHERE userId = ?";
 
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 

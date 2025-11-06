@@ -34,13 +34,14 @@ public class TicketService {
     ArrayList<Ticket> userTicketsResult = new ArrayList<>();
 
     for (Ticket ticket : userTickets) {
-      Ticket ticketDTO =
+      Ticket newTicket =
           new Ticket(
               ticket.getTicketId(),
               ticket.getTicketHash(),
               ticket.getTicketType(),
               ticket.getTicketTrip());
-      userTicketsResult.add(ticketDTO);
+      userTicketsResult.add(
+          newTicket); /* benytter ikke DTO her siden vi ønsker all informasjon (men kunne likefullt gjort det gjennom en DTO) */
     }
 
     GetUserTicketsResult result = new GetUserTicketsResult(request.getUserId(), userTicketsResult);
@@ -61,10 +62,22 @@ public class TicketService {
 
   public void shareTicket(ShareTicketWithUserRequest request) throws TicketRepositoryException {
 
+    ArrayList<Integer> userTicketAvailableToShare = new ArrayList<>();
+
     // Henter brukerens billetter
     ArrayList<Ticket> userTickets = ticketRepository.getUserTickets(request.getUserId());
 
-    // Må sjekke om userId finnes i tickets (ticketOwnerId)
+    // Sjekker om brukeren eier billetten som skal deles
+    for (Ticket ticket : userTickets) {
+      userTicketAvailableToShare.add(ticket.getTicketId());
+    }
 
+    if (!userTicketAvailableToShare.contains(request.getTicketId())) {
+      throw new TicketRepositoryException("Cannot share ticket not owned by user");
+    } else {
+
+      ticketRepository.shareTicket(
+          request.getUserId(), new Ticket(request.getTicketId()), request.getNewOwnerUserId());
+    }
   }
 }

@@ -39,6 +39,11 @@ public class User {
     this.email = email;
   }
 
+  @Override
+  public String toString() {
+    return this.firstName + " " + this.lastName;
+  }
+
   public int getUserId() {
     return userId;
   }

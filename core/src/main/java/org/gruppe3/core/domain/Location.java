@@ -27,6 +27,20 @@ public class Location {
     this.description = description;
   }
 
+  @Override
+  public String toString() {
+    return "ID: "
+        + this.id
+        + " Name: "
+        + this.name
+        + " Latitude: "
+        + this.latitude
+        + " Longitude: "
+        + this.longitude
+        + " Description: "
+        + this.description;
+  }
+
   public String getId() {
     return id;
   }
