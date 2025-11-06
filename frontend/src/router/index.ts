@@ -8,6 +8,7 @@ const router = createRouter({
 			path: '/',
 			name: 'home',
 			component: HomeView,
+			meta: { title: 'Gruppe 3' },
 		},
 		{
 			path: '/about',
@@ -18,6 +19,6 @@ const router = createRouter({
 			component: () => import('../views/AboutView.vue'),
 		},
 	],
-})
+});
 
 export default router
