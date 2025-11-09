@@ -63,7 +63,7 @@ public class Main {
           "Fant følgende for 'Oslo S': " + oslos.getLocations().getFirst().getDescription());
 
       logger.info("Fant følgende for 'Bergen': " + bergen.getLocations().getFirst());
-      logger.info("Fant følgende for 'Kristiandsand': " + kristiansand.getLocations().getFirst());
+      logger.info("Fant følgende for 'Kristiansand': " + kristiansand.getLocations().getFirst());
       logger.info("Fant følgende for 'Stavanger': " + stavanger.getLocations().getFirst());
       logger.info("Fant følgende for 'Kirkenes': " + kirkenes.getLocations().getFirst());
 
