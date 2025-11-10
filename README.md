@@ -30,7 +30,7 @@ The backend is written in **Java 21**, built with a **multi-module Maven** setup
 ### 🎨 Frontend
 
 The frontend is built with **Vue.js** and powered by **Vite**
-for fast development and optimized builds.
+for fast development and optimized builds. Accessed on [localhost](http://localhost) (after running)
 
 **Structure:**
 
@@ -91,4 +91,4 @@ Vi har valgt å teste på følgende måter:
 - Domeneklassene "Trip", "Location", "User" osv blir ikke testet ettersom at det ikke har noe for seg i vårt prosjekt. Det kunne eventuelt vært et poeng å bruke såkalte "smoke tests" for å verifisere at konstruktørene og getterne fungerer slik de skal, men dette har vi valgt bort å gjøre.
 - Våre tester demonstrerer hvordan man kan bruke ArgumentCaptor for å verifisere data som blir brukt i portene.
 
-> Se i UserServiceUnitTests-klassen for utfyllende kommentarer vedrørende testene. Der står det forklart hvordan testene våre er bygget opp etter AAA-strukturen.
+Se i UserServiceUnitTests-klassen for utfyllende kommentarer vedrørende testene. Der står det forklart hvordan testene våre er bygget opp etter AAA-strukturen.
