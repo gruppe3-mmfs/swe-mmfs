@@ -58,6 +58,9 @@ buildNumber.properties
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+# Github badges
+.github/badges/*
+
 # Local History for Visual Studio Code
 .history/
 
