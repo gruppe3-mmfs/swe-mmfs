@@ -40,8 +40,8 @@ public class TicketService {
               ticket.getTicketHash(),
               ticket.getTicketType(),
               ticket.getTicketTrip());
-      userTicketsResult.add(
-          newTicket); /* benytter ikke DTO her siden vi ønsker all informasjon (men kunne likefullt gjort det gjennom en DTO) */
+      userTicketsResult.add(newTicket);
+      /* benytter ikke DTO her siden vi ønsker all informasjon (men kunne likefullt gjort det gjennom en DTO) */
     }
 
     GetUserTicketsResult result = new GetUserTicketsResult(request.getUserId(), userTicketsResult);
