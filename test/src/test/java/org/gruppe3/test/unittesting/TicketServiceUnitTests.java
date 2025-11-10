@@ -8,6 +8,7 @@ import org.gruppe3.core.dto.BuyTicketRequest;
 import org.gruppe3.core.dto.CreateTicketRequest;
 import org.gruppe3.core.dto.GetUserTicketsRequest;
 import org.gruppe3.core.dto.GetUserTicketsResult;
+import org.gruppe3.core.dto.ShareTicketWithUserRequest;
 import org.gruppe3.core.exception.BuyTicketRequestException;
 import org.gruppe3.core.exception.TicketRepositoryException;
 import org.gruppe3.core.port.out.TicketRepositoryPort;
@@ -20,6 +21,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TicketServiceUnitTests {
@@ -166,7 +168,7 @@ public class TicketServiceUnitTests {
 
    @Test
     @DisplayName("testTicketRepositoryException - should create exception with message and cause")
-    void TicketRepositoryExceptionSuccessfully() {
+    void ticketRepositoryExceptionSuccessfully() {
 
         // Arrange
         // Kaller konstruktøren med både message og cause
@@ -179,4 +181,34 @@ public class TicketServiceUnitTests {
         assert test2.getCause() == cause : "Cause should be the same as the one provided";
     }
 
+    @Test
+    @DisplayName("testShareTicketWithUser - should share ticket successfully")
+    void shareTicketWithUserSuccessfully() throws TicketRepositoryException {
+
+        // Arrange
+        TicketRepositoryPort ticketRepositoryMock = Mockito.mock(TicketRepositoryPort.class);
+        TicketService ticketService = new TicketService(ticketRepositoryMock);
+
+        // Lager stub data for brukerens billett
+        int userId = 1;
+        int ticketIdToShare = 2;
+        String ticketHashToShare = "hash1";
+        String ticketTypeToShare = "Normal";
+        Trip ticketTripToShare = new Trip(new Location("A"), new Location("B"));
+        int newOwnerUserId = 3;
+
+        // Bruker eierens billett
+        ArrayList<Ticket> userTickets = new ArrayList<>();
+        userTickets.add(new Ticket(ticketIdToShare, ticketHashToShare, ticketTypeToShare, ticketTripToShare, userId));
+        when(ticketRepositoryMock.getUserTickets(userId)).thenReturn(userTickets);
+        ShareTicketWithUserRequest request = new ShareTicketWithUserRequest(userId, ticketIdToShare, newOwnerUserId);
+
+        // Act
+        // Kaller shareTicket-funksjonen i TicketService med riktig request
+        ticketService.shareTicket(request);
+
+        // Assert
+        // Verifiserer at shareTicket i repositoryet ble kalt med riktig userId, Ticket og newOwnerUserId
+        verify(ticketRepositoryMock, times(1)).shareTicket(eq(userId), any(Ticket.class), eq(newOwnerUserId));
+    }
 }
