@@ -3,6 +3,7 @@ package org.gruppe3.test.unittesting;
 import org.gruppe3.core.domain.Location;
 import org.gruppe3.core.dto.SearchLocationRequest;
 import org.gruppe3.core.dto.SearchLocationResult;
+import org.gruppe3.core.exception.TripRepositoryException;
 import org.gruppe3.core.port.out.LocationRepositoryPort;
 import org.gruppe3.core.service.LocationService;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +23,7 @@ public class LocationServiceUnitTests {
 
     @Test
     @DisplayName("searchLocations - should return correct locations")
-    public void searchLocationsSuccessfully() throws Exception {
+    public void searchLocationsSuccessfully() throws TripRepositoryException {
 
         // Arrange
         // Definerer søkespørringen
@@ -55,5 +56,25 @@ public class LocationServiceUnitTests {
 
         // Verifiserer at ingen andre metoder på mock objektet ble kalt
         Mockito.verifyNoMoreInteractions(locationRepositoryMock);
+    }
+
+    @Test
+    @DisplayName("testTripRepositoryException - should create exception with message and cause")
+    void TripRepositoryExceptionSuccessfully() {
+
+        // Arrange
+        // Kaller konstruktøren med bare mmessage
+        TripRepositoryException test1 = new TripRepositoryException("Test1 message");
+
+        // Kaller konstruktøren med både message og cause
+        Exception cause = new Exception("Test2 feil");
+        TripRepositoryException test2 = new TripRepositoryException("Test2 message", cause);
+
+        // Act & assert
+        // Sjekker at message og cause er satt riktig
+        assert test1.getMessage().equals("Test1 message") : "Message should be 'Test1 message'";
+        assert test1.getCause() == null : "Cause should be null";
+        assert test2.getMessage().equals("Test2 message") : "Message should be 'Test2 message'";
+        assert test2.getCause() == cause : "Cause should be the same as the one provided";
     }
 }

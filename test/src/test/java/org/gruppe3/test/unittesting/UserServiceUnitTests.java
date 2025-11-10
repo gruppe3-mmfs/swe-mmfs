@@ -26,7 +26,7 @@ public class UserServiceUnitTests {
     // Tester at createUser() sender riktig data til UserRepository når en ny bruker opprettes
     @Test
     @DisplayName("createUser - should create user successfully")
-    public void createUserSuccessfully() throws Exception {
+    public void createUserSuccessfully() throws UserRepositoryException {
         
         // Arrange
         // Her definerer vi inputdataene for testen som skal sendes til createUser-metoden
@@ -65,7 +65,7 @@ public class UserServiceUnitTests {
 
     @Test
     @DisplayName("createUser - should throw UserRepositoryException when repository fails")
-    public void createUserThrowsUserRepositoryExceptionSuccessfully() throws Exception {
+    public void createUserThrowsUserRepositoryExceptionSuccessfully() throws UserRepositoryException {
 
         // Arrange
         CreateUserRequest request = new CreateUserRequest("Kari", "Nordmann", "99999999", "kari@nordmann.no");
@@ -93,10 +93,11 @@ public class UserServiceUnitTests {
         // Verifiser at repositoryet ble forsøkt kalt kun en gang
         Mockito.verify(userRepositoryMock, Mockito.times(1)).createUser(Mockito.any(User.class));
     }
+    
 
     @Test
     @DisplayName("assignUserToFamily - should assign user to family successfully")
-    public void assignUserToFamilySuccessfully() throws Exception {
+    public void assignUserToFamilySuccessfully() throws UserRepositoryException {
 
         // Arrange
         int userId = 1;

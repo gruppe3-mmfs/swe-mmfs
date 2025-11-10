@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import org.gruppe3.core.domain.Location;
 import org.gruppe3.core.domain.Ticket;
 import org.gruppe3.core.domain.Trip;
+import org.gruppe3.core.dto.BuyTicketRequest;
 import org.gruppe3.core.dto.CreateTicketRequest;
 import org.gruppe3.core.dto.GetUserTicketsRequest;
 import org.gruppe3.core.dto.GetUserTicketsResult;
+import org.gruppe3.core.exception.BuyTicketRequestException;
+import org.gruppe3.core.exception.TicketRepositoryException;
 import org.gruppe3.core.port.out.TicketRepositoryPort;
 import org.gruppe3.core.service.TicketService;
 import org.junit.jupiter.api.Assertions;
@@ -23,9 +26,10 @@ public class TicketServiceUnitTests {
 
   @Mock TicketRepositoryPort ticketRepositoryMock;
 
+
   @Test
   @DisplayName("createTicket - should create ticket successfully")
-  public void createTicketSuccessfully() throws Exception {
+  public void createTicketSuccessfully() throws TicketRepositoryException {
 
     // Arrange
     TicketService ticketService = new TicketService(ticketRepositoryMock);
@@ -35,7 +39,8 @@ public class TicketServiceUnitTests {
     Location toLocation = new Location("Halden Stasjon");
     Trip trip = new Trip(fromLocation, toLocation);
 
-    CreateTicketRequest request = new CreateTicketRequest("GeneratedHashCode", "Normal", trip);
+    CreateTicketRequest request =
+        new CreateTicketRequest("GeneratedHashCode", "Normal", trip);
 
     // Act
     ticketService.createTicket(request);
@@ -53,9 +58,10 @@ public class TicketServiceUnitTests {
     Assertions.assertEquals(trip, capturedTicket.getTicketTrip());
   }
 
+
   @Test
   @DisplayName("getUserTickets - should return correct tickets for user")
-  public void getUserTicketsSuccessfully() throws Exception {
+  public void getUserTicketsSuccessfully() throws TicketRepositoryException {
 
     // Arrange
     // Her oppretter vi stub data som skal returneres av mock objektet
@@ -103,4 +109,74 @@ public class TicketServiceUnitTests {
         result.getTickets().get(2).getTicketType(),
         "Third ticket type should be 'Senior'");
   }
+
+  @Test
+  @DisplayName("buyTicket - should buy ticket successfully")
+  public void buyTicketSuccessfully() throws TicketRepositoryException, BuyTicketRequestException {
+
+    // Arrange
+    TicketRepositoryPort ticketRepositoryMock = Mockito.mock(TicketRepositoryPort.class);
+    TicketService ticketService = new TicketService(ticketRepositoryMock);
+    BuyTicketRequest request = new BuyTicketRequest(1, "Normal", "Oslo S", "Halden Stasjon");
+
+    // Act
+    ticketService.buyTicket(request);
+
+    // Assert
+    // Fanger opp argumentene som ble sendt til buyTicket i repositoryet
+    ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
+    ArgumentCaptor<Integer> userIdCaptor = ArgumentCaptor.forClass(Integer.class);
+
+    // Verifiserer at buyTicket i repositoryet ble kalt med riktig userId og Ticket
+    Mockito.verify(ticketRepositoryMock, Mockito.times(1))
+        .buyTicket(userIdCaptor.capture(), ticketCaptor.capture());
+
+    // Henter verdiene som ble sendt og fanget opp
+    Integer capturedUserId = userIdCaptor.getValue();
+    Ticket capturedTicket = ticketCaptor.getValue();
+
+    // Sjekker at userId er som forventet
+    Assertions.assertEquals(1, capturedUserId);
+    // Sjekker at ticketType i Ticket-objektet er som forventet
+    Assertions.assertEquals("Normal", capturedTicket.getTicketType());
+
+    // Sjekker så tripp feltene i Ticket-objektet
+    Trip capturedTrip = capturedTicket.getTicketTrip();
+    Assertions.assertEquals("Oslo S", capturedTrip.getFromLocation().getName());
+    Assertions.assertEquals("Halden Stasjon", capturedTrip.getToLocation().getName());
+  }
+
+  @Test
+  @DisplayName("hasStringSHA256 - should hash string correctly")
+  void hashStringSHA256Successfully() throws BuyTicketRequestException {
+    // Arrange
+    // Skriver inn et testinput og forventet hashverdi
+    String input = "TestString123";
+    String expectedHash =
+        "36a36a9ff0d1080272653c8cc883bd8f3dcc75d95e7af626a6ee2da87052fa75";
+
+    // Act
+    // Kaller hashStringSHA256 for å få den faktiske hashen
+    String actualHash = BuyTicketRequest.hashStringSHA256(input);
+
+    // Assert
+    // Sjekker at den faktiske hashen stemmer overens med forventet verdi
+    Assertions.assertEquals(expectedHash, actualHash, "The SHA-256 hash should match the expected value");
+  }
+
+   @Test
+    @DisplayName("testTicketRepositoryException - should create exception with message and cause")
+    void TicketRepositoryExceptionSuccessfully() {
+
+        // Arrange
+        // Kaller konstruktøren med både message og cause
+        Exception cause = new Exception("Test2 feil");
+        TicketRepositoryException test2 = new TicketRepositoryException("Test2 message", cause);
+
+        // Act & assert
+        // Sjekker at message og cause er satt riktig
+        assert test2.getMessage().equals("Test2 message") : "Message should be 'Test2 message'";
+        assert test2.getCause() == cause : "Cause should be the same as the one provided";
+    }
+
 }

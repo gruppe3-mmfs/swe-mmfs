@@ -45,7 +45,7 @@ public class BuyTicketRequest {
     return ticketHash;
   }
 
-  private static String hashStringSHA256(String input) throws BuyTicketRequestException {
+  public static String hashStringSHA256(String input) throws BuyTicketRequestException {
     try {
       MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
