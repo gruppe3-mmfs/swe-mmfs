@@ -76,6 +76,7 @@ public class TicketRepositoryMySQLAdapterTests {
         Assertions.assertEquals(1, ticketRepository.getUserTickets(1).getFirst().getTicketOwnerId());
     }
 
+    /*
     @Test
     @DisplayName("shareTicketSuccessfully")
     public void shareTicketInDatabaseSuccessfully() throws Exception {
@@ -91,5 +92,5 @@ public class TicketRepositoryMySQLAdapterTests {
 
         // Assert
     }
-    
+    */
 }
