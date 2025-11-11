@@ -1,7 +1,6 @@
 package org.gruppe3.test.testdb;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 public abstract class TestDatabase {
@@ -13,25 +12,51 @@ public abstract class TestDatabase {
     public abstract void stopDB() throws Exception;
 
     // Oppretter user-tabellen
-    public void createTables() throws Exception {
+    public void createUserTable() throws Exception {
         try (Statement statement = connection.createStatement()) {
-            statement.execute("CREATE TABLE users (userId INT AUTO_INCREMENT PRIMARY KEY, firstName VARCHAR(25),"
-            +  "lastName VARCHAR(25), phoneNumber VARCHAR(15), email VARCHAR(50), familyId INT)");
+            statement.execute("CREATE TABLE IF NOT EXISTS users "
+            + "(userId INT AUTO_INCREMENT PRIMARY KEY,"
+            + "firstName VARCHAR(25),"
+            + "lastName VARCHAR(25),"
+            + "honeNumber VARCHAR(15),"
+            + "email VARCHAR(50),"
+            + "userFamilyId INT,"
+            + "FOREIGN KEY (userFamilyId) REFERENCES family(familyId)");
         }
     }
 
-    // Setter inn dummy-data i user-tabellen
-    public void insertIntoUsersTable() throws Exception {
-        String sql = "Insert INTO users (firstName, lastName, phoneNumber, email, familyId)" +
-        "VALUES (?, ?, ?, ?, ?)";
+    // Oppretter ticket-tabellen
+    public void createTicketTable() throws Exception {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute ("CREATE TABLE IF NOT EXISTS tickets "
+            + "(ticketId INT AUTO_INCREMENT PRIMARY KEY,"
+            + "ticketHash VARCHAR (64) NOT NULL UNIQUE,"
+            + "ticketTripOrigin VARCHAR (50) NOT NULL,"
+            + "ticketTripDestination VARCHAR (50) NOT NULL,"
+            + "ticketOwnerId INT, FOREIGN KEY (ticketType) REFERENCES ticketTypes(ticketTypeId)"
+            + "FOREIGN KEY (ticketOwnerId) REFERENCES users(userId)");
+        }
+    }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, 1);
-            preparedStatement.setString(1, "Ola");
-            preparedStatement.setString(2, "Nordmann");
-            preparedStatement.setString(3, "12345678");
-            preparedStatement.setString(4, "Ola@Nordmann.no");
-            preparedStatement.setInt(5, 1);
+    // Opprettet lookup-tabellen
+    public void createLookupTable() throws Exception {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute ("CREATE TABLE IF NOT EXISTS ticketTypes "
+            + "(ticketTypeId INT AUTO_INCREMENT PRIMARY KEY,"
+            + "ticketType VARCHAR (59) NOT NULL UNIQUE,");
+        }
+    }
+
+    // Setter inn dummy-data i lookup-tabellen
+    public void insertIntoLookupTable() throws Exception {
+        String sql1 = "INSERT IGNORE INTO ticketTypes (ticketTypeId, ticketType) VALUES (1, \"Normal\");";
+        String sql2 = "INSERT IGNORE INTO ticketTypes (ticketTypeId, ticketType) VALUES (2, \"Student\");";
+        String sql3 = "INSERT IGNORE INTO ticketTypes (ticketTypeId, ticketType) VALUES (3, \"Senior\");";
+
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(sql1);
+            statement.execute(sql2);
+            statement.execute(sql3);
         }
     }
 }
