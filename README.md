@@ -1,94 +1,117 @@
-[![Java CI with Maven](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml/badge.svg?branch=dev)](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml)
+# SWE-MMFS: Modulært fullstack-system
+
+![Java CI with Maven](https://github.com/gruppe3-mmfs/swe-mmfs/actions/workflows/maven.yml/badge.svg)
 ![Coverage](.github/badges/jacoco.svg)
 ![Branches](.github/badges/branches.svg)
 
-# 🧱 SWE-MMFS: Modular Fullstack System
-
-A fullstack project built for the ITF20319-1 25H Software Engineering
-and Testing course (Gruppe 3). This system combines a modular Java backend
-with a reactive Vue.js frontend, all orchestrated via Docker Compose.
+Et fullstack-prosjekt utviklet for emnet ITF20319-1 25H Software Engineering
+and Testing (Gruppe 3). Systemet kombinerer en modulær Java-backend med et
+reaktivt Vue.js-frontend, orkestrert via Docker Compose.
 
 ---
 
-## 🚀 Technology Overview
+## Teknologioversikt
 
-### 🔙 Backend
+### Backend
 
-The backend is written in **Java 21**, built with a **multi-module Maven** setup, and served using the lightweight **Javalin** web framework. It follows a **hexagonal architecture** (Ports & Adapters) to ensure clean separation of concerns and maintainable code.
+Backend er skrevet i Java 21, bygget med en multi-modul Maven-struktur,
+og kjøres med Javalin-rammeverket. Arkitekturen følger en heksagonal modell
+(porter og adaptere) for å sikre tydelig ansvarsdeling og vedlikeholdbar kode.
 
-**Modules:**
+**Moduler:**
 
-- `core`: Contains domain logic, DTOs, service interfaces, and ports
-- `api`: HTTP adapters, including routes like `/ping` and integrations with external APIs (e.g., Entur)
-- `app`: Application bootstrap and configuration
-- `storage`: Persistence layer with database adapters and exception handling
-- `test`: Shared test scaffolding and integration test setup
-- `report`: Aggregated report for code coverage generated with JaCoCo
-
----
-
-### 🎨 Frontend
-
-The frontend is built with **Vue.js** and powered by **Vite**
-for fast development and optimized builds. Accessed on [localhost](http://localhost) (after running)
-
-**Structure:**
-
-- `components/`: Reusable UI components
-- `views/`: Page-level components
-- `router/`: Vue Router configuration
-- `assets/`: Static files and icons
+- `core`: Inneholder domenelogikk, DTO-er, tjenestegrensesnitt og porter  
+- `api`: HTTP-adaptere, endepunkt som `/ping` og integrasjon mot Entur API
+- `app`: Oppstart og konfigurasjon av applikasjonen  
+- `storage`: Persistenslag med databaseadaptere og feilhåndtering  
+- `test`: Felles testoppsett og integrasjonstester  
+- `report`: Samlet rapport for testdekning generert med JaCoCo  
 
 ---
 
-### ⚙️ Infrastructure
+### Frontend
 
-- **Containerization:** Docker & Docker Compose
-- **Routing & Proxy:** Traefik [dashboard](http://dashboard.docker.localhost) (after running)
-- **Database:** MySQL
-- **Admin UI:** phpMyAdmin [dashboard](http://db.docker.localhost) (after running)
+Frontend er bygget med Vue.js og benytter Vite for rask utvikling og
+optimaliserte bygging.
+
+Applikasjonen nås via [localhost](http://localhost) etter oppstart.
+
+**Struktur:**
+
+- `components/`: Gjenbrukbare UI-komponenter  
+- `views/`: Sidekomponenter  
+- `router/`: Konfigurasjon for Vue Router  
+- `assets/`: Statisk innhold og ikoner  
 
 ---
 
-## 📦 Cloning the Project
+### Infrastruktur
 
-    git clone git@github.com:gruppe3-mmfs/swe-mmfs.git
-    cd swe-mmfs
+- Containerisering: Docker og Docker Compose  
+- Routing og proxy: Traefik ([dashboard](http://dashboard.docker.localhost))  
+- Database:MySQL  
+- Admin-grensesnitt: phpMyAdmin ([dashboard](http://db.docker.localhost))  
 
-## 🛠️ Build & Run
+---
 
-Start the fullstack system:
+## Instruksjoner
 
-    docker-compose up --build
+### Kloning av prosjektet
 
-Reset MySQL volume and restart:
+```bash
+git clone git@github.com:gruppe3-mmfs/swe-mmfs.git
+cd swe-mmfs
+```
 
-    docker-compose down -v && docker-compose up --build
+### Bygg og kjøring
 
-## 📁 Project Structure
+Start hele systemet med følgende kommando:
 
-    .
-    ├── api/         # HTTP adapters (e.g., Entur, ping)
-    ├── app/         # Application entrypoint and config
-    ├── config/      # MySQL config file
-    ├── core/        # Domain, DTOs, ports, services
-    ├── diagram/     # Architecture diagrams
-    ├── frontend/    # Vue.js frontend (Vite)
-    ├── initdb/      # MySQL schema and dummydata scripts
-    ├── report/      # JaCoCo aggregated report (Code coverage)
-    ├── storage/     # Database adapters and persistence
-    ├── test/        # Shared test scaffolding
-    └── docker-compose.yml
+```bash
+docker-compose up --build
+```
+
+### Tilbakestill MySQL-volum og start på nytt
+
+For å fjerne persisent lagrede data og starte systemet på nytt brukes følgende kommando:
+
+```bash
+docker-compose down -v && docker-compose up --build
+```
+
+## Prosjektstruktur
+
+```bash
+.
+├── api/         # HTTP-adaptere (f.eks. Entur, ping)
+├── app/         # Applikasjonsstart og konfigurasjon
+├── config/      # MySQL-konfigurasjonsfil
+├── core/        # Domene, DTO-er, porter, tjenester
+├── diagram/     # Arkitekturdiagrammer
+├── frontend/    # Vue.js frontend (Vite)
+├── initdb/      # MySQL-skjema og dummydata
+├── report/      # JaCoCo-rapport (testdekning)
+├── storage/     # Databaseadaptere og persistens
+├── test/        # Felles testoppsett
+└── docker-compose.yml
+```
 
 ## Testing
 
-I dette prosjektet bruker vi JUnit5 og Mockito for enhetstesting. Testene følger den velkjente AAA-strukturen (Arrange, Act, Assert) for å sikre både lesbarhet og forståelse av testene.
+Prosjektet benytter JUnit5 og Mockito for enhetstesting. Testene følger AAA-strukturen
+(Arrange, Act, Assert) for å sikre god lesbarhet og forståelse.
 
-Vi har valgt å teste på følgende måter:
+Vi tester på følgende måter:
 
-- Servicelagene "UserService", "TicketService" og "LocationService" testes isolert med mockede repositories.
-- Exception-tester sikrer at feil i repository eller API blir håndtert på riktig måte.
-- Domeneklassene "Trip", "Location", "User" osv blir ikke testet ettersom at det ikke har noe for seg i vårt prosjekt. Det kunne eventuelt vært et poeng å bruke såkalte "smoke tests" for å verifisere at konstruktørene og getterne fungerer slik de skal, men dette har vi valgt bort å gjøre.
-- Våre tester demonstrerer hvordan man kan bruke ArgumentCaptor for å verifisere data som blir brukt i portene.
+- Servicelagene UserService, TicketService og LocationService testes
+isolert med mockede repositories
+- Egne tester for exceptions sikrer korrekt håndtering av feil i repository eller
+API
+- Domeneklassene Trip, Location, User osv. testes ikke, da det ikke gir verdi i
+dette prosjektet. Vi vurderte såkalte "smoke tests" for å verifisere konstruktører
+og gettere, men valgte å droppe dette
+- Testene demonstrerer bruk av ArgumentCaptor for å verifisere hvilke data som
+sendes til portene
 
-Se i UserServiceUnitTests-klassen for utfyllende kommentarer vedrørende testene. Der står det forklart hvordan testene våre er bygget opp etter AAA-strukturen.
+Se UserServiceUnitTests-klassen for detaljerte kommentarer om testoppsettet og
+hvordan AAA-strukturen er implementert.
