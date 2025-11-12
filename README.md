@@ -49,7 +49,7 @@ Applikasjonen nås via [localhost](http://localhost) etter oppstart.
 
 - Containerisering: Docker og Docker Compose  
 - Routing og proxy: Traefik ([dashboard](http://dashboard.docker.localhost))  
-- Database: MySQL
+- Database:MySQL  
 - Admin-grensesnitt: phpMyAdmin ([dashboard](http://db.docker.localhost))  
 
 ---
@@ -78,10 +78,6 @@ For å fjerne persisent lagrede data og starte systemet på nytt brukes følgend
 ```bash
 docker-compose down -v && docker-compose up --build
 ```
-
-### Stopp systemet / Docker
-
-Trykk på `CTRL+C` i konsollvinduet for å stoppe systemet
 
 ## Prosjektstruktur
 
