@@ -1,0 +1,12 @@
+@startuml
+
+Frontend -> RestAPIAdapter: Forward user input from frontend
+RestAPIAdapter -> RestfulApiPort: Input Adapter (Driving)
+RestfulApiPort -> LocationService: Application Core 
+LocationService -> LocationRepositoryPort: SearchLocationRequest DTO
+LocationRepositoryPort -> EnturLocationAdapter: searchLocations(SearchLocationRequest request)
+EnturLocationAdapter --> LocationRepositoryPort: Returns locations from external service (Entur Geocoder API)
+LocationRepositoryPort --> LocationService: SearchLocationResult DTO
+LocationService --> Frontend: Show locations found
+ 
+@enduml

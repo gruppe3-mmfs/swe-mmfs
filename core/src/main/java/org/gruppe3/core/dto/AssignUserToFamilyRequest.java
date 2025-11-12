@@ -1,10 +1,10 @@
 package org.gruppe3.core.dto;
 
-public class assignUserToFamilyRequest {
+public class AssignUserToFamilyRequest {
   private final int userId;
   private final int familyId;
 
-  public assignUserToFamilyRequest(int userId, int familyId) {
+  public AssignUserToFamilyRequest(int userId, int familyId) {
     this.userId = userId;
     this.familyId = familyId;
   }

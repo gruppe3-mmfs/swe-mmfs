@@ -1,6 +1,7 @@
 package org.gruppe3.core.service;
 
 import org.gruppe3.core.domain.User;
+import org.gruppe3.core.dto.AssignUserToFamilyRequest;
 import org.gruppe3.core.dto.CreateUserRequest;
 import org.gruppe3.core.exception.UserRepositoryException;
 import org.gruppe3.core.port.out.UserRepositoryPort;
@@ -23,6 +24,7 @@ public class UserService {
     userRepository.createUser(user);
   }
 
-  // public void assignUserToFamily(assignUserToFamilyRequest request)
-  //     throws UserRepositoryException {}
+  public void assignUserToFamily(AssignUserToFamilyRequest request) throws UserRepositoryException {
+    userRepository.assignUserToFamily(request.getUserId(), request.getFamilyId());
+  }
 }

@@ -30,6 +30,22 @@ public class Ticket {
     this.ticketTrip = ticketTrip;
   }
 
+  public Ticket(int ticketId) {
+    this.ticketId = ticketId;
+  }
+
+  @Override
+  public String toString() {
+    return "ID: "
+        + this.ticketId
+        + " Hash: "
+        + this.ticketHash
+        + " Type: "
+        + this.ticketType
+        + " OwnerId: "
+        + this.ticketOwnerId;
+  }
+
   public int getTicketId() {
     return ticketId;
   }

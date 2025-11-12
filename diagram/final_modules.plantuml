@@ -1,0 +1,248 @@
+@startuml
+allowmixing
+left to right direction
+package org.gruppe3.frontend {
+	note "Vue.js served with Vite" as NoteFrontend
+}
+package org.gruppe3.test {
+	note "Shared test scaffolding" as NoteTest
+}
+package org.gruppe3.report {
+	note "JaCoCo aggregated report for code coverage" as NoteReport
+}
+package org.gruppe3.api {
+	package adapter {
+		package entur <<Cloud>> {
+			class EnturLocationAdapter<? implements LocationRepositoryPort> {
+			 +ArrayList<Location> searchLocations(String query)
+			 -ArrayList<Location> parseResponse(String jsonBody)
+			}
+		}
+		package restAPI {
+			class RestAPIAdapter {
+
+			}
+			note top of RestAPIAdapter : Not implemented
+		}
+		package uiController {
+			class UIControllerAdapter {
+
+			}
+			note top of UIControllerAdapter : Not implemented
+		}
+		class PingController {
+		 +Handler pingHandler
+		}
+	}
+}
+package org.gruppe3.app {
+	class Main<? Bootstrap> {
+	}
+}
+package org.gruppe3.core {
+	package domain {
+		class Family {
+		 -int familyId
+		 -String familyName
+		}
+		class Leg {
+		 -String mode
+		 -String lineName
+		 -LocalDateTime departureTime
+		 -LocalDateTime arrivalTime
+		 -Location from
+		 -Location to
+		}
+		class Location {
+		 -String id
+		 -String name
+		 -double latitude
+		 -double longitude
+		 -String description
+			}
+		class Trip {
+		 -String id
+		 -LocalDateTime departureTime
+		 -LocalDateTime arrivalTime
+		 -Location fromLocation
+		 -Location toLocation
+		 -ArrayList<Leg> legs
+		}
+		class Ticket {
+		 -int ticketId
+		 -String ticketHash
+		 -String ticketType
+		 -Trip ticketTrip
+		 -int ticketOwnerId
+		}
+		class User {
+		 -int userId
+		 -String firstName
+		 -String lastName
+		 -String phoneNumber
+		 -String email
+		 -int familyId
+		}
+	}
+	package exception {
+		exception BuyTicketRequestException<? extends Exception> {
+		}
+		exception TicketRepositoryException<? extends Exception> {
+		}
+		exception TripRepositoryException<? extends Exception> {
+		}
+		exception UserRepositoryException<? extends Exception> {
+		}
+	}
+	package port {
+		package in {
+			interface RestfulApiPort {
+
+			}
+			note top of RestfulApiPort : Not implemented
+			interface UiControllerPort {
+
+			}
+			note top of UiControllerPort : Not implemented
+		}
+		package out {
+			interface LocationRepositoryPort {
+			 +ArrayList<Location> searchLocations(String query)
+			}
+			interface TicketRepositoryPort {
+			 +void createTicket(Ticket ticket)
+			 +ArrayList<Ticket> getUserTickets(int userId)
+			 +void buyTicket(int userId, Ticket ticket)
+			 +void shareTicket(int userId, Ticket ticket, int newOwnerUserId)
+			}
+			interface TripRepositoryPort {
+			 +List<Trip> searchTrips(Location from, Location to)
+			}
+			interface UserRepositoryPort {
+			 +void createUser(User user)
+			 +User getUserById(int userId)
+			 +ArrayList<User> getAllUsersFromDatabase()
+			 +void assignUserToFamily(int userId, int familyId)
+			}
+		}
+	}
+	package dto {
+		class AssignUserToFamilyRequest {
+		 -int userId
+		 -int familyId
+		}
+		class BuyTicketRequest {
+		 -int userId
+		 -String ticketHash
+		 -String ticketType
+		 -String ticketTripOrigin
+		 -String ticketTripDestination
+		 -String hashStringSHA256(String input)
+		}
+		class CreateTicketRequest {
+		 -String ticketHash
+		 -String ticketType
+		 -Trip ticketTrip
+		}
+		class CreateUserRequest {
+		 -String firstName
+		 -String lastName
+		 -String phoneNumber
+		 -String email
+		}
+		class GetUserTicketsRequest {
+		 -int userId
+		}
+		class GetUserTicketsResult {
+		 -int userId
+		 -ArrayList<Ticket> tickets
+		}
+		class SearchLocationRequest {
+		 -String location
+		}
+		class SearchLocationResult {
+		 -ArrayList<Location> locations
+		}
+		class ShareTicketWithUserRequest {
+		 -int userId
+		 -int ticketId
+		 -int newOwnerUserId
+		}
+	}
+	package service {
+		class LocationService {
+		 -LocationRepositoryPort locationRepository
+		 +SearchLocationResult searchLocations(SearchLocationRequest request)
+		}
+		class TicketService {
+		 -TicketRepositoryPort ticketRepository
+		 +void createTicket(CreateTicketRequest request)
+		 +GetUserTicketsResult getUserTickets(GetUserTicketsRequest request)
+		 +void buyTicket(BuyTicketRequest request)
+		 +void shareTicket(ShareTicketWithUserRequest request)
+		}
+		class UserService {
+		 -UserRepositoryPort userRepository
+		 +void createUser(CreateUserRequest request)
+		 +void assignUserToFamily(AssignUserToFamilyRequest request)
+		}
+	}
+}
+package org.gruppe3.storage {
+	package adapter {
+		class TicketRepositoryMySQLAdapter<? implements TicketRepositoryPort> {
+			-Connection connection
+			+void createTicket(Ticket ticket)
+			+ArrayList<Ticket> getUserTickets(int userId)
+			+void buyTicket(int userId, Ticket ticket)
+			+void shareTicket(int userId, Ticket ticket, int newOwnerUserId)
+		}
+		class UserRepositoryMySQLAdapter<? implements UserRepositoryPort> {
+			-Connection connection
+			+void createUser(User user)
+			+User getUserById(int userId)
+			+ArrayList<User> getAllUsersFromDatabase()
+			+void assignUserToFamily(int userId, int familyId)
+		}
+	}
+	package exception {
+		class MySQLDatabaseException<? extends RuntimeException> {
+		}
+	}
+	package database <<Database>> {
+		class MySQLDatabase {
+			-String url
+			-String username
+			-String password
+			-Connection connection
+			+getConnection()
+			+startDB()
+			+stopDB()
+		}
+	}
+}
+
+TicketRepositoryPort <|.. TicketRepositoryMySQLAdapter
+UserRepositoryPort <|.. UserRepositoryMySQLAdapter
+LocationRepositoryPort <|.. EnturLocationAdapter
+
+RestfulApiPort <|.. RestAPIAdapter
+UiControllerPort <|.. UIControllerAdapter
+
+Ticket --> Trip
+Trip --> Location
+Trip o-- Leg
+
+in -[hidden]-> out
+api -[hidden]-> storage
+app -[hidden]-> frontend
+frontend -[hidden]-> test
+test -[hidden]-> report
+port -[hidden]-> service
+service -[hidden]-> core
+TicketRepositoryMySQLAdapter -d[hidden]-> TicketRepositoryPort
+uiController -l[hidden]-> restAPI
+entur -r[hidden]-> uiController
+dto -d[hidden]-> port
+
+@enduml

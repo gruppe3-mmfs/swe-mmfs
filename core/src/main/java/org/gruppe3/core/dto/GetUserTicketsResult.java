@@ -17,7 +17,7 @@ public class GetUserTicketsResult {
     return userId;
   }
 
-  public ArrayList<Ticket> getTicketDTOs() {
+  public ArrayList<Ticket> getTickets() {
     return tickets;
   }
 }
